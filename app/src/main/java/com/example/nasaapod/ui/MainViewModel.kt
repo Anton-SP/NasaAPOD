@@ -18,8 +18,13 @@ class MainViewModel(val repository: NasaRepository) : ViewModel() {
     val _image: MutableStateFlow<String?> = MutableStateFlow(null)
     val image: Flow<String?> = _image
 
+    val _explanation: MutableStateFlow<String?> = MutableStateFlow(null)
+    val explanation: Flow<String?> = _explanation
+
     private val _error:MutableSharedFlow<String> = MutableSharedFlow()
     val error:Flow<String> = _error
+////////
+
 
 
     fun requestApod() {
@@ -30,6 +35,10 @@ class MainViewModel(val repository: NasaRepository) : ViewModel() {
             try {
                 val url = repository.Apod().url
                 _image.emit(url)
+
+                val info = repository.Apod().explanation
+                _explanation.emit(info)
+
             } catch (exc: IOException) {
                 _error.emit("Error from flow ")
             }

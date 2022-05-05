@@ -50,6 +50,16 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             }
         }
 
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.explanation.collect { info ->
+                info?.let {
+                    binding.textViewId.text = info
+
+
+                }
+            }
+        }
+
     }
 
 }

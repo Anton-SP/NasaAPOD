@@ -23,9 +23,6 @@ class MainViewModel(val repository: NasaRepository) : ViewModel() {
 
     private val _error:MutableSharedFlow<String> = MutableSharedFlow()
     val error:Flow<String> = _error
-////////
-
-
 
     fun requestApod() {
 

@@ -54,8 +54,6 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             viewModel.explanation.collect { info ->
                 info?.let {
                     binding.textViewId.text = info
-
-
                 }
             }
         }

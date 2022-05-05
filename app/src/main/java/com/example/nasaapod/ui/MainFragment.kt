@@ -10,6 +10,7 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.MainFragmentBinding
 import com.example.nasaapod.domain.NasaRepositoryImp
+import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment(R.layout.main_fragment) {
 
@@ -45,18 +46,39 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             viewModel.image.collect { url ->
                 url?.let {
                     binding.apodImg.load(it)
-
                 }
             }
         }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.explanation.collect { info ->
-                info?.let {
-                    binding.textViewId.text = info
+            viewModel.title.collect { title ->
+                title?.let {
+                    binding.textViewTitle.text = title
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.date.collect { date ->
+                binding.chipToday.apply {
+                    setOnCheckedChangeListener(null)
+                    isChecked = true
+                    setOnCheckedChangeListener { compoundButton, isChecked -> }
+                }
+
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.explanation.collect { info ->
+                info?.let {
+                    binding.textViewExplanation.text = info
+                }
+            }
+        }
+
+
 
     }
 

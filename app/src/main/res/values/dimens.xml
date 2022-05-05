@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="coll_bar_margin_end">64dp</dimen>
+    <dimen name="coll_bar_margin_start">48dp</dimen>
+    <dimen name="title_size">25sp</dimen>
+    <dimen name="chip_padding">10dp</dimen>
+    <dimen name="explanation_padding">5dp</dimen>
+    <dimen name="explanation_size">20sp</dimen>
+</resources>

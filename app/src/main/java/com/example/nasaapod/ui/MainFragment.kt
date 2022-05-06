@@ -3,6 +3,7 @@ package com.example.nasaapod.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
@@ -10,6 +11,8 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.MainFragmentBinding
 import com.example.nasaapod.domain.NasaRepositoryImp
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment(R.layout.main_fragment) {
 
@@ -45,9 +48,48 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             viewModel.image.collect { url ->
                 url?.let {
                     binding.apodImg.load(it)
-
                 }
             }
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.title.collect { title ->
+                title?.let {
+                    binding.textViewTitle.text = title
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.date.collect { date ->
+                binding.chipToday.apply {
+                    setOnCheckedChangeListener(null)
+                    isChecked = true
+                    setOnCheckedChangeListener { compoundButton, isChecked -> }
+                }
+
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            viewModel.explanation.collect { info ->
+                info?.let {
+                    binding.textViewExplanation.text = info
+                }
+            }
+        }
+
+        binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search_menu -> {
+                    val modalBottonSheet = wikiSearchBottom()
+                    modalBottonSheet.show(requireActivity().supportFragmentManager,"modal_tag")
+                    true
+                }
+                else -> false
+            }
+
         }
 
     }

@@ -20,6 +20,10 @@ private val api = Retrofit.Builder()
     .build()
     .create(NasaApi::class.java)
 
+/**
+ключ по хорошему не нужно передавать но для удобства учебных целей оставил так
+ */
+
 class NasaRepositoryImp:NasaRepository {
     override suspend fun Apod(): ApodResponse = api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB")
 }

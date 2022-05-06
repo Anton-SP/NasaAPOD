@@ -3,4 +3,5 @@
     <string name="today_chip">today</string>
     <string name="day1_chip">1 day ago</string>
     <string name="day2_chip">2 day ago</string>
+    <string name="wiki_url">https://ru.wikipedia.com/wiki/</string>
 </resources>

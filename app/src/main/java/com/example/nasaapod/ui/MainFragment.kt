@@ -3,6 +3,7 @@ package com.example.nasaapod.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
@@ -10,6 +11,7 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.MainFragmentBinding
 import com.example.nasaapod.domain.NasaRepositoryImp
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment(R.layout.main_fragment) {
@@ -78,7 +80,17 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             }
         }
 
+        binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search_menu -> {
+                    val modalBottonSheet = wikiSearchBottom()
+                    modalBottonSheet.show(requireActivity().supportFragmentManager,"modal_tag")
+                    true
+                }
+                else -> false
+            }
 
+        }
 
     }
 

@@ -7,8 +7,8 @@
     android:fitsSystemWindows="true">
 
     <!--подсмотрел на хабре и да лучше  много здесь не писать НО!
-       изначально  долго мучался с ботом шифт
-       пытался его ограничить его текст картинкой сверху чтобы он на нее на залезал
+       изначально  долго мучался с ботм шифт
+       пытался ограничить его текст картинкой сверху чтобы он на нее на залезал
         а скрывался под ней, но понял что и ботон шифт для такого большого текста
         не очень корректное решение  в итоге набрел на сие "чудо"
         (2015 года написания что несколько смущает)
@@ -98,7 +98,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
         <TextView
             android:id="@+id/text_view_explanation"
             android:layout_width="wrap_content"
@@ -124,6 +123,7 @@
         android:layout_gravity="bottom"
         app:backgroundTint="@color/space"
         app:fabAlignmentMode="center"
+        app:menu="@menu/appbar_menu"
         app:hideOnScroll="true" >
 
     </com.google.android.material.bottomappbar.BottomAppBar>

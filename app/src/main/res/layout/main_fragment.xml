@@ -6,23 +6,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!--подсмотрел на хабре и да лучше  много здесь не писать НО!
-       изначально  долго мучался с ботм шифт
-       пытался ограничить его текст картинкой сверху чтобы он на нее на залезал
-        а скрывался под ней, но понял что и ботон шифт для такого большого текста
-        не очень корректное решение  в итоге набрел на сие "чудо"
-        (2015 года написания что несколько смущает)
-       схлопывающийся тулбар с картинкой
-       с взложенностью элементов конечно пока туго
-       и прям получить вот то что хочется получается с натяжкой
-       надюсь с опытом прийдет но пока как то так
-       -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/space"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
+
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/main_collapse"
@@ -52,9 +43,9 @@
                 android:id="@+id/text_view_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
+
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -68,21 +59,22 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_today"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/today_chip" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_1_day_ago"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+
+                app:rippleColor="@color/teal_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/day1_chip" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_2_day_ago"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/day2_chip" />
@@ -121,13 +113,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/space"
         app:fabAlignmentMode="center"
-        app:menu="@menu/appbar_menu"
-        app:hideOnScroll="true" >
+        app:hideOnScroll="true"
+        app:menu="@menu/appbar_menu">
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

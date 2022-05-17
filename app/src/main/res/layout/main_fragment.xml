@@ -107,8 +107,12 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible" />
+    
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width=""
+        android:layout_height=""
 
-    <com.google.android.material.bottomappbar.BottomAppBar
+   <!-- <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,7 +121,7 @@
         app:hideOnScroll="true"
         app:menu="@menu/appbar_menu">
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
+    </com.google.android.material.bottomappbar.BottomAppBar>-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

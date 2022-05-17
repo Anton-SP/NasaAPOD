@@ -6,6 +6,36 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="XOXOXOXO"
+        android:textSize="72sp"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -109,10 +139,17 @@
         tools:visibility="visible" />
     
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width=""
-        android:layout_height=""
+        android:id="@+id/bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="center"
+        app:hideOnScroll="true"
+        app:menu="@menu/appbar_menu">
 
-   <!-- <com.google.android.material.bottomappbar.BottomAppBar
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+   &lt;!&ndash; <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,7 +158,7 @@
         app:hideOnScroll="true"
         app:menu="@menu/appbar_menu">
 
-    </com.google.android.material.bottomappbar.BottomAppBar>-->
+    </com.google.android.material.bottomappbar.BottomAppBar>&ndash;&gt;
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>-->

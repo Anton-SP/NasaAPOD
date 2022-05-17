@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val theme = getPreferences(Context.MODE_PRIVATE).getInt(KEY_THEME, -1)
-        setTheme(theme)
+        //setTheme(theme)
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, MainFragment(), "MAIN")
+                .add(R.id.main_container, NasaApodFragment(), "MAIN")
                 .commitNow()
         }
     }

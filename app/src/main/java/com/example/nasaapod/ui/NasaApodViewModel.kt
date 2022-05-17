@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
-class MainViewModel(val repository: NasaRepository) : ViewModel() {
+class NasaApodViewModel(val repository: NasaRepository) : ViewModel() {
 
     val _loading = MutableStateFlow(false)
     val loading: Flow<Boolean> = _loading
@@ -60,6 +60,6 @@ class MainViewModel(val repository: NasaRepository) : ViewModel() {
 }
 
 class MainViewModelFactory(private val repository: NasaRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(repository) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = NasaApodViewModel(repository) as T
 
 }

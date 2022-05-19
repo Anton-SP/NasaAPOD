@@ -24,6 +24,7 @@ private val api = Retrofit.Builder()
 ключ по хорошему не нужно передавать но для удобства учебных целей оставил так
  */
 
-class NasaRepositoryImp:NasaRepository {
+class NasaApodRepositoryImp:NasaApodRepository {
     override suspend fun Apod(): ApodResponse = api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB")
+
 }

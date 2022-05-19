@@ -8,5 +8,11 @@ interface NasaApi {
      * APOD -  Astronomy Picture of the Day
      */
     @GET("planetary/apod")
-        suspend fun getAPOD(@Query("api_key")key:String):ApodResponse
+    suspend fun getAPOD(@Query("api_key") key: String): ApodResponse
+
+    /**
+     * EPIC - Earth Polychromatic Imaging Camera
+     */
+/*    @GET("api/natural")
+    suspend fun getEpic(): EpicResponse*/
 }

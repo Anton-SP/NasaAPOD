@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="ui.MainActivity">
 
-    <!--android:name="com.example.nasaapod.ui.MainFragment"-->
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_container"

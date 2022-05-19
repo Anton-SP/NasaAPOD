@@ -11,14 +11,16 @@ import androidx.lifecycle.coroutineScope
 import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.NasaApodFragmentBinding
-import com.example.nasaapod.domain.NasaRepositoryImp
+import com.example.nasaapod.domain.NasaApodRepositoryImp
+import com.example.nasaapod.ui.viewmodel.NasaApodViewModelFactory
+import com.example.nasaapod.ui.viewmodel.NasaApodViewModel
 
 class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
 
     private lateinit var binding: NasaApodFragmentBinding
 
     private val viewModel: NasaApodViewModel by viewModels {
-        MainViewModelFactory(NasaRepositoryImp())
+        NasaApodViewModelFactory(NasaApodRepositoryImp())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

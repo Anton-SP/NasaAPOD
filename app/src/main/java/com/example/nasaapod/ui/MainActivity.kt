@@ -36,70 +36,25 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
        val bottomNavigation : BottomNavigationView = findViewById(R.id.bottom_nav_bar)
 
-        bottomNavigation.setOnItemSelectedListener { menuItem->
-            when (menuItem.itemId) {
-                R.id.apod_menu -> {
-                    Log.d("HAPPY","apod")
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, NasaApodFragment(), "MAIN")
-                        .commitNow()
-                    true
-                }
-                R.id.earth_menu -> {
-                    Log.d("HAPPY","earth")
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, EarthFargment(), "EARTH")
-                        .commitNow()
-                    true
-                }
-                R.id.mars_menu -> {
-                    true
-                }
-                else -> false
-            }
-        }
-/*
-        binding.bottomNavBar.setOnItemSelectedListener { menuItem ->
-
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.apod_menu -> NasaApodFragment()
                 R.id.earth_menu -> EarthFargment()
-                //  R.id.action_tab -> TabHostFragment()
+                R.id.mars_menu -> MarsFragment()
                 else -> null
             }?.also { fragment ->
-                Log.d("HAPPY","WOW")
-                Toast.makeText(this,"HEHEHEH EARTH", Toast.LENGTH_SHORT).show()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.main_container, fragment)
                     .commit()
             }
-           true
+            true
         }
-        */
 
     }
 
 
-}      /* when (menuItem.itemId) {
-                R.id.apod_menu -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, NasaApodFragment(), "MAIN")
-                        .commitNow()
-                    true
-                }
-                R.id.earth_menu -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, EarthFargment(), "EARTH")
-                        .commitNow()
-                    true
-                }
-                R.id.mars_menu -> {
-                    true
-                }
-                else -> false
-            }
-*/
+}
 
 
 

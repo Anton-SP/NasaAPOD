@@ -1,9 +1,9 @@
-package com.example.nasaapod.ui
+package com.example.nasaapod.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.nasaapod.domain.NasaRepository
+import com.example.nasaapod.domain.NasaApodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
-class NasaApodViewModel(val repository: NasaRepository) : ViewModel() {
+class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
     val _loading = MutableStateFlow(false)
     val loading: Flow<Boolean> = _loading
@@ -59,7 +59,7 @@ class NasaApodViewModel(val repository: NasaRepository) : ViewModel() {
 
 }
 
-class MainViewModelFactory(private val repository: NasaRepository) : ViewModelProvider.Factory {
+class NasaApodViewModelFactory(private val repository: NasaApodRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T = NasaApodViewModel(repository) as T
 
 }

@@ -2,12 +2,12 @@ package com.example.nasaapod.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.ActivityMainBinding
+import com.example.nasaapod.ui.earth.EarthFargment
+import com.example.nasaapod.ui.mars.MarsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }?.also { fragment ->
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_container, fragment)
+                    .replace(R.id.main_container, fragment,"EPIC")
                     .commit()
             }
             true

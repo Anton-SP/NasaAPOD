@@ -28,8 +28,8 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
     val _date: MutableStateFlow<Date?> = MutableStateFlow(null)
     val date: Flow<Date?> = _date
 
-    private val _error:MutableSharedFlow<String> = MutableSharedFlow()
-    val error:Flow<String> = _error
+    private val _error: MutableSharedFlow<String> = MutableSharedFlow()
+    val error: Flow<String> = _error
 
     fun requestApod() {
 
@@ -59,7 +59,9 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
 }
 
-class NasaApodViewModelFactory(private val repository: NasaApodRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = NasaApodViewModel(repository) as T
+class NasaApodViewModelFactory(private val repository: NasaApodRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+        NasaApodViewModel(repository) as T
 
 }

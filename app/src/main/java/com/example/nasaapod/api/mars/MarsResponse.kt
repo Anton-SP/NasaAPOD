@@ -20,6 +20,4 @@ data class LatestPhoto (
 
     @SerializedName("earth_date")
     val earthDate:String,
-
-
     )

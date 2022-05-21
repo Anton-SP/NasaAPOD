@@ -1,14 +1,20 @@
 package com.example.nasaapod.ui.earth
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import com.example.nasaapod.R
+import com.example.nasaapod.databinding.FragmentPageEarthBinding
+import com.example.nasaapod.domain.EpicRepositoryImp
 
 class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
 
@@ -20,34 +26,53 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
         }
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(requireActivity()).get(EpicViewModel::class.java)
+    private lateinit var binding: FragmentPageEarthBinding
+
+    private val epicViewModel:EpicViewModel by viewModels {
+        EpicViewModel.EpicViewModelFactory(EpicRepositoryImp())
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentPageEarthBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       // view.findViewById<TextView>(R.id.epic_test).text = arguments?.getInt(ARG_NUMBER)?.toString()
+      //  binding.epicTest.text = arguments?.getInt(ARG_NUMBER)?.toString()
+        arguments?.let {
+            val id:Int = it.getInt(ARG_NUMBER)
+        }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.epicList.collect { epicList ->
+            epicViewModel.epicList.collect { list ->
+                list.let{
+                    binding.epicTest.text = it.get(0)!!.date
 
-                epicList.let {
-                    val id = arguments?.getInt(ARG_NUMBER)?.toInt()
-                    view.findViewById<TextView>(R.id.epic_test).text = epicList[id!!]?.image ?: "000"
+
+              //     view.findViewById<TextView>(R.id.epic_test).text = arguments?.getInt(ARG_NUMBER)?.toString()
+                 //   val id = arguments?.getInt(ARG_NUMBER)
+             //       view.findViewById<TextView>(R.id.epic_test).text = list[2]?.image
                 }
 
             }
         }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.error.collect {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            epicViewModel.error.collect {
+
             }
         }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.identifier.collect { id ->
+            epicViewModel.identifier.collect { id ->
                 id?.let {
-                    //    binding.textFragEarth.text = id
+
                 }
 
             }

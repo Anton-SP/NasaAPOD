@@ -8,9 +8,11 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.viewModelScope
 import com.example.nasaapod.api.epic.EpicResponseDTO
 import com.example.nasaapod.domain.EpicRepository
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -37,9 +39,12 @@ class EpicViewModel(val repository: EpicRepository) : ViewModel() {
     val _date: MutableStateFlow<String?> = MutableStateFlow(null)
     val date: Flow<String?> = _date
 
-    val _epicList : MutableSharedFlow<List<EpicResponseDTO?>> = MutableSharedFlow()
-    val epicList: Flow<List<EpicResponseDTO?>> = _epicList
+    /*val _epicList : MutableSharedFlow<List<EpicResponseDTO?>> = MutableSharedFlow()
+    val epicList: Flow<List<EpicResponseDTO?>> = _epicList*/
 
+    val _epicList: MutableSharedFlow<List<EpicResponseDTO?>> =
+        MutableSharedFlow<List<EpicResponseDTO?>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST,)
+    val epicList: Flow<List<EpicResponseDTO?>> = _epicList
 
     fun requestEpic() {
 
@@ -51,14 +56,14 @@ class EpicViewModel(val repository: EpicRepository) : ViewModel() {
                 val epic = repository.Epic()
                 _epicList.emit(epic)
 
-            /*    val url = repository.Epic()[].image
-                _image.emit(url)
+                /*    val url = repository.Epic()[].image
+                    _image.emit(url)
 
-                val identifier = repository.Epic()[].identifier
-               _identifier.emit(identifier)
+                    val identifier = repository.Epic()[].identifier
+                   _identifier.emit(identifier)
 
-                val lenght = repository.Epic().count()
-                _listLenght.emit(lenght)*/
+                    val lenght = repository.Epic().count()
+                    _listLenght.emit(lenght)*/
 
 
             } catch (exc: IOException) {

@@ -1,6 +1,7 @@
 package com.example.nasaapod.ui.earth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,16 +23,14 @@ class EarthFargment: Fragment(R.layout.earth_fragment) {
     private lateinit var binding : EarthFragmentBinding
 
 
-    private val epicViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(EpicViewModel::class.java)
+    private val epicViewModel:EpicViewModel by viewModels {
+        EpicViewModel.EpicViewModelFactory(EpicRepositoryImp())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             epicViewModel.requestEpic()
-
-
         }
     }
 
@@ -43,35 +42,27 @@ class EarthFargment: Fragment(R.layout.earth_fragment) {
         binding = EarthFragmentBinding.inflate(inflater,container,false)
         return binding.root
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var length = 0
-
+        var size = 0
+        val fragment = this
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel._epicList.collect{list->
-                list?.let{
-                    length = list.size
-                    binding.earthViewPager.adapter = PagerAdapter(requireParentFragment())
-                }
-
+            epicViewModel.epicList.collect{list->
+                list.let{
+                    size = list.size
+                    Log.d("HAPPY","check 3 list")
+                    binding.earthViewPager.adapter = PagerAdapter(fragment,size)
+                  }
             }
-
         }
-
-
-
 
     }
 
-
-    class PagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-
-        override fun getItemCount(): Int = 10
-
+    class PagerAdapter(fragment: Fragment,count:Int) : FragmentStateAdapter(fragment) {
+        val size = count
+        override fun getItemCount(): Int = size
         override fun createFragment(position: Int): Fragment = EarthPageFragment.instance(position)
 
     }

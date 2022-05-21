@@ -4,18 +4,37 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/text_frag_mars"
-        android:layout_width="match_parent"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/mars_tabs"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="50sp"
-
+        app:layout_constraintBottom_toTopOf="@id/mars_view_pager"
         />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/mars_view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mars_tabs"/>
+
+    <!--  <TextView
+          android:id="@+id/text_frag_mars"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          android:textSize="50sp"
+
+          />
+  -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

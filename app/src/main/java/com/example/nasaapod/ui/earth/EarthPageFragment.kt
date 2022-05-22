@@ -7,16 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.ui.text.substring
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import coil.load
 import com.example.nasaapod.R
+import com.example.nasaapod.api.epic.EpicResponseDTO
 import com.example.nasaapod.databinding.FragmentPageEarthBinding
 import com.example.nasaapod.domain.EpicRepositoryImp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
+
+    val FIRST_PART_URL = "https://epic.gsfc.nasa.gov/archive/natural/"
+    val THIRD_PART_URL = "/jpg/"
+    val LAST_PART_URL = ".jpg"
+
+
 
     companion object {
         private const val ARG_NUMBER = "ARG_NUMBER"
@@ -26,10 +43,16 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
         }
     }
 
+
     private lateinit var binding: FragmentPageEarthBinding
 
-    private val epicViewModel:EpicViewModel by viewModels {
+    private val epicViewModel: EpicViewModel by viewModels {
         EpicViewModel.EpicViewModelFactory(EpicRepositoryImp())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        epicViewModel.requestEpic()
     }
 
     override fun onCreateView(
@@ -37,45 +60,45 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPageEarthBinding.inflate(inflater,container,false)
+        binding = FragmentPageEarthBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // view.findViewById<TextView>(R.id.epic_test).text = arguments?.getInt(ARG_NUMBER)?.toString()
-      //  binding.epicTest.text = arguments?.getInt(ARG_NUMBER)?.toString()
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            epicViewModel.loading.collect(){
+                binding.progressBarEarth.visibility =  if (it) View.VISIBLE else View.GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            epicViewModel.error.collect(){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         arguments?.let {
-            val id:Int = it.getInt(ARG_NUMBER)
-        }
+            val id: Int = it.getInt(ARG_NUMBER)
 
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.epicList.collect { list ->
-                list.let{
-                    binding.epicTest.text = it.get(0)!!.date
-
-
-              //     view.findViewById<TextView>(R.id.epic_test).text = arguments?.getInt(ARG_NUMBER)?.toString()
-                 //   val id = arguments?.getInt(ARG_NUMBER)
-             //       view.findViewById<TextView>(R.id.epic_test).text = list[2]?.image
-                }
-
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.error.collect {
-
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.identifier.collect { id ->
-                id?.let {
+            Log.d("HAPPY", "id in create is= " + id.toString())
+            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted{
+                epicViewModel.epicList.collect(){ list ->
+                    val secondPartUrl = list[id]?.date?.let { it1 -> convertDate(it1) }
+                    val url = FIRST_PART_URL+secondPartUrl+THIRD_PART_URL+list[id]?.image+LAST_PART_URL
+                    binding.epicImage.load(url)
+                    binding.latitude.text = list[id]?.centroidCoordinates?.lat.toString()
+                    binding.longitude.text = list[id]?.centroidCoordinates?.lon.toString()
+                    binding.dateImage.text = list[id]?.date
 
                 }
-
             }
         }
+    }
+
+    fun convertDate (inputString : String) :String {
+
+       return inputString.replace("-","/").substring(0,10)
     }
 }

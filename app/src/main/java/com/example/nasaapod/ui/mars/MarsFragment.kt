@@ -1,9 +1,11 @@
 package com.example.nasaapod.ui.mars
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
@@ -11,10 +13,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.MarsFragmentBinding
 import com.example.nasaapod.domain.MarsRepositoryImp
-import com.example.nasaapod.ui.earth.EarthFargment
-import com.example.nasaapod.ui.earth.EarthPageFragment
+import com.google.android.material.tabs.TabLayoutMediator
 
-class MarsFragment:Fragment (R.layout.mars_fragment) {
+
+class MarsFragment : Fragment(R.layout.mars_fragment) {
 
     private lateinit var binding: MarsFragmentBinding
 
@@ -34,44 +36,38 @@ class MarsFragment:Fragment (R.layout.mars_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = MarsFragmentBinding.inflate(inflater,container,false)
+        binding = MarsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         var size = 0
         val fragment = this
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            marsViewModel.photos.collect {
-                size = it.latestPhotos.size
-                binding.marsViewPager.adapter = EarthFargment.PagerAdapter(fragment, size)
-             //   binding.textFragMars.text = it.latestPhotos[0].imgSrc
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            marsViewModel.loading.collect{
-
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            marsViewModel.title.collect { title ->
-                title?.let {
-                 //   binding.textFragMars.text = title
+            marsViewModel.photos.collect { response ->
+                response?.let {
+                    size = it.latestPhotos.size
+                    Log.d("HAPPY", "size= " + size)
+                    binding.marsViewPager.adapter = MarsPagerAdapter(fragment, size)
+                    TabLayoutMediator(binding.marsTabs, binding.marsViewPager) { tab, position ->
+                        tab.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_baseline_remove_red_eye_24
+                        )
+                    }.attach()
                 }
             }
+
         }
 
     }
 
-    class PagerAdapter(fragment: Fragment,count:Int) : FragmentStateAdapter(fragment) {
+    class MarsPagerAdapter(fragment: Fragment, count: Int) : FragmentStateAdapter(fragment) {
         val size = count
         override fun getItemCount(): Int = size
-        override fun createFragment(position: Int): Fragment = EarthPageFragment.instance(position)
+        override fun createFragment(position: Int): Fragment = MarsPageFragment.instance(position)
 
     }
 }

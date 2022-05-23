@@ -1,4 +1,4 @@
-package com.example.nasaapod.ui.viewmodel
+package com.example.nasaapod.ui.apod
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -50,18 +50,21 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
                 _date.emit(date)
 
             } catch (exc: IOException) {
-                _error.emit("Error from flow ")
+                _error.emit("Error loading APOD API ")
             }
 
             _loading.emit(false)
         }
     }
 
+
+
+    class NasaApodViewModelFactory(private val repository: NasaApodRepository) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
+            NasaApodViewModel(repository) as T
+
+    }
+
 }
 
-class NasaApodViewModelFactory(private val repository: NasaApodRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        NasaApodViewModel(repository) as T
-
-}

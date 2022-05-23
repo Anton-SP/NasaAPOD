@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.ActivityMainBinding
+import com.example.nasaapod.ui.apod.NasaApodFragment
 import com.example.nasaapod.ui.earth.EarthFargment
 import com.example.nasaapod.ui.mars.MarsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val theme = getPreferences(Context.MODE_PRIVATE).getInt(KEY_THEME, -1)
-        //setTheme(theme)
+        setTheme(theme)
 
         super.onCreate(savedInstanceState)
        /* binding = ActivityMainBinding.inflate(layoutInflater)

@@ -5,25 +5,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
-import androidx.viewpager.widget.PagerAdapter
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.EarthFragmentBinding
 import com.example.nasaapod.domain.EpicRepositoryImp
-import kotlinx.coroutines.flow.collect
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class EarthFargment: Fragment(R.layout.earth_fragment) {
+class EarthFargment : Fragment(R.layout.earth_fragment) {
 
-    private lateinit var binding : EarthFragmentBinding
+    private lateinit var binding: EarthFragmentBinding
 
 
-    private val epicViewModel:EpicViewModel by viewModels {
+    private val epicViewModel: EpicViewModel by viewModels {
         EpicViewModel.EpicViewModelFactory(EpicRepositoryImp())
     }
 
@@ -39,7 +39,7 @@ class EarthFargment: Fragment(R.layout.earth_fragment) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = EarthFragmentBinding.inflate(inflater,container,false)
+        binding = EarthFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -48,23 +48,33 @@ class EarthFargment: Fragment(R.layout.earth_fragment) {
         super.onViewCreated(view, savedInstanceState)
         var size = 0
         val fragment = this
+
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.epicList.collect{list->
-                list.let{
-                    size = list.size
-                    Log.d("HAPPY","check 3 list")
-                    binding.earthViewPager.adapter = PagerAdapter(fragment,size)
-                  }
+            epicViewModel.epicList.collect() { response ->
+                response?.let {
+                    size = it.size
+                    binding.earthViewPager.adapter = EpicPagerAdapter(fragment, size)
+                    TabLayoutMediator(binding.earthTabs, binding.earthViewPager) { tab, position ->
+                        tab.icon = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_baseline_remove_red_eye_24
+                        )
+                    }.attach()
+                }
+
             }
+
         }
 
-    }
-
-    class PagerAdapter(fragment: Fragment,count:Int) : FragmentStateAdapter(fragment) {
-        val size = count
-        override fun getItemCount(): Int = size
-        override fun createFragment(position: Int): Fragment = EarthPageFragment.instance(position)
 
     }
 
 }
+
+class EpicPagerAdapter(fragment: Fragment, count: Int) : FragmentStateAdapter(fragment) {
+    val size = count
+    override fun getItemCount(): Int = size
+    override fun createFragment(position: Int): Fragment = EarthPageFragment.instance(position)
+
+}
+

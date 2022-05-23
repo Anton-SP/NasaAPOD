@@ -1,11 +1,11 @@
-package com.example.nasaapod.api
+package com.example.nasaapod.api.apod
 
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class ApodResponse(
     @SerializedName("date")
-    val date: Date,
+    val date: String,
 
     @SerializedName("explanation")
     val explanation: String,

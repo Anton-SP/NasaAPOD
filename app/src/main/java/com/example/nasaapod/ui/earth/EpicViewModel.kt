@@ -24,23 +24,6 @@ class EpicViewModel(val repository: EpicRepository) : ViewModel() {
     private val _error: MutableSharedFlow<String> = MutableSharedFlow()
     val error: Flow<String> = _error
 
-    /*val _identifier: MutableStateFlow<String?> = MutableStateFlow(null)
-    val identifier: Flow<String?> = _identifier
-
-    val _image: MutableStateFlow<String?> = MutableStateFlow(null)
-    val image: Flow<String?> = _image
-
-    val _date: MutableStateFlow<String?> = MutableStateFlow(null)
-    val date: Flow<String?> = _date*/
-
-    /*val _epicList : MutableSharedFlow<List<EpicResponseDTO?>> = MutableSharedFlow()
-    val epicList: Flow<List<EpicResponseDTO?>> = _epicList*/
-
-/*
-    val _id: MutableStateFlow<String?> = MutableStateFlow(null)
-    val id: Flow<String?> = _id
-*/
-
     val _epicList: MutableSharedFlow<List<EpicResponseDTO?>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val epicList: Flow<List<EpicResponseDTO?>> = _epicList

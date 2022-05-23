@@ -1,6 +1,5 @@
 package com.example.nasaapod.api.mars
 
-import com.example.nasaapod.api.ApodResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

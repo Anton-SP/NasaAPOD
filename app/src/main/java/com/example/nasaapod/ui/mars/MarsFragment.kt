@@ -54,7 +54,7 @@ class MarsFragment : Fragment(R.layout.mars_fragment) {
                     TabLayoutMediator(binding.marsTabs, binding.marsViewPager) { tab, position ->
                         tab.icon = ContextCompat.getDrawable(
                             requireContext(),
-                            R.drawable.ic_baseline_remove_red_eye_24
+                            R.drawable.ic_mars
                         )
                     }.attach()
                 }

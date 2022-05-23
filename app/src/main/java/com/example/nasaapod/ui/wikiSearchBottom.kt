@@ -12,6 +12,11 @@ import androidx.annotation.RequiresApi
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.SearchFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+/**
+пока выпилено, передет в отлеьный фрагмент с настройками  или тип того
+
+
+*/
 
 class wikiSearchBottom: BottomSheetDialogFragment() {
     override fun onCreateView(

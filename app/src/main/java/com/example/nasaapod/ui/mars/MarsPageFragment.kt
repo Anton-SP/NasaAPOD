@@ -13,6 +13,7 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.FragmentPageMarsBinding
 import com.example.nasaapod.domain.MarsRepositoryImp
+import com.example.nasaapod.ui.earth.EarthPageFragment
 
 class MarsPageFragment : Fragment(R.layout.fragment_page_mars) {
     companion object {
@@ -61,18 +62,16 @@ class MarsPageFragment : Fragment(R.layout.fragment_page_mars) {
             }
         }
 
+
         arguments?.let {
-            val id: Int = it.getInt(ARG_NUMBER)
+            val id: Int = it.getInt(MarsPageFragment.ARG_NUMBER)
             viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
                 marsViewModel.photos.collect() { photos ->
-                    photos.let {
-                        binding.marsPhoto.load(photos.latestPhotos[id].imgSrc)
-                        binding.dateImage.text = photos.latestPhotos[id].earthDate
-                    }
+                    binding.marsPhoto.load(photos.latestPhotos[id].imgSrc)
+                    binding.dateImage.text = photos.latestPhotos[id].earthDate
                 }
             }
         }
-
     }
 
 }

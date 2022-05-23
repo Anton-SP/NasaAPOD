@@ -39,6 +39,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         NasaApodViewModel.NasaApodViewModelFactory(NasaApodRepositoryImp())
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -51,7 +52,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPageApodBinding.inflate(inflater,container,false)
+        binding = FragmentPageApodBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -73,82 +74,64 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
 
         arguments?.let {
             val id: Int = it.getInt(NasaApodPageFragment.ARG_NUMBER)
+            Log.d("HAPPY", "id is = " + id)
+
             viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-       apodViewModel.date.collect(){ date ->
-           date?.let {
-               var today : LocalDate = LocalDate.now()
-               var yesterday  : LocalDate = today.minusDays(1)
-               var yesterday2  : LocalDate = today.minusDays(2)
-               /*
-               var dateFormat = SimpleDateFormat("yyyy-mm-dd")
-               var str = dateFormat.format(it)*/
-               Log.d("HAPPY",today.toString())
-               Log.d("HAPPY",yesterday.toString())
-               Log.d("HAPPY",yesterday2.toString())
-           }
-
-
-
-          /*   //   marsViewModel.photos.collect() { photos ->
-                    photos.let {
-                        binding.marsPhoto.load(photos.latestPhotos[id].imgSrc)
-                        binding.dateImage.text = photos.latestPhotos[id].earthDate
-                    }*/
+                apodViewModel.loading.collect {
+                    binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
                 }
             }
+
+            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+                apodViewModel.error.collect {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            when (id) {
+                0 -> {
+                    viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+                        apodViewModel.today.collect() { day ->
+                            day?.let {
+                                binding.apodImg.load(day.url)
+                                binding.textViewTitle.text = day.title
+                                binding.textViewExplanation.text = day.explanation
+                            }
+                        }
+                    }
+                }
+                1 -> {
+                    viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+                        apodViewModel.oneDayAgo.collect() { day ->
+                            day?.let {
+                                binding.apodImg.load(day.url)
+                                binding.textViewTitle.text = day.title
+                                binding.textViewExplanation.text = day.explanation
+                            }
+                        }
+                    }
+                }
+                2 -> {
+                    viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+                        apodViewModel.twoDaysAgo.collect() { day ->
+                            day?.let {
+                                binding.apodImg.load(day.url)
+                                binding.textViewTitle.text = day.title
+                                binding.textViewExplanation.text = day.explanation
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "ERROR TAB!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
 
     }
 }
-/*
- viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.loading.collect {
-                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-            }
-        }
 
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.error.collect {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.image.collect { url ->
-                url?.let {
-                    binding.apodImg.load(it)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.title.collect { title ->
-                title?.let {
-                   binding.textViewTitle.text = title
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.date.collect { date ->
-                binding.chipToday.apply {
-                    setOnCheckedChangeListener(null)
-                    isChecked = true
-                    setOnCheckedChangeListener { compoundButton, isChecked -> }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            viewModel.explanation.collect { info ->
-                info?.let {
-                    binding.textViewExplanation.text = info
-                }
-            }
-        }
-
-
-*/
 
 
 

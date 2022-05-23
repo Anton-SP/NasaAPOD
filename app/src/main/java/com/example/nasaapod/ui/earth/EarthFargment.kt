@@ -57,7 +57,7 @@ class EarthFargment : Fragment(R.layout.earth_fragment) {
                     TabLayoutMediator(binding.earthTabs, binding.earthViewPager) { tab, position ->
                         tab.icon = ContextCompat.getDrawable(
                             requireContext(),
-                            R.drawable.ic_baseline_remove_red_eye_24
+                            R.drawable.ic_epic
                         )
                     }.attach()
                 }

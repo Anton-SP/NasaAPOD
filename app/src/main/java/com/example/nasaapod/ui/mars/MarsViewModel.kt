@@ -19,32 +19,20 @@ class MarsViewModel(val repository: MarsRepository) : ViewModel() {
     val _loading = MutableStateFlow(false)
     val loading: Flow<Boolean> = _loading
 
-  /*  val _image: MutableStateFlow<String?> = MutableStateFlow(null)
-    val image: Flow<String?> = _image
-
-    val _title: MutableStateFlow<String?> = MutableStateFlow(null)
-    val title: Flow<String?> = _title*/
-
     private val _error: MutableSharedFlow<String> = MutableSharedFlow()
     val error: Flow<String> = _error
 
-    val _photos: MutableSharedFlow<MarsResponse> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val photos:Flow<MarsResponse> = _photos
+    val _photos: MutableSharedFlow<MarsResponse> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val photos: Flow<MarsResponse> = _photos
 
-   /* val _images: MutableSharedFlow<List<LatestPhoto>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val images:Flow<List<LatestPhoto>> = _images*/
     fun requestMars() {
 
         _loading.value = true
-             viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 val marsPhotos = repository.Mars()
                 _photos.emit(marsPhotos)
-
-           /*     val marsLatestPhoto = repository.Mars().latestPhotos
-                _images.emit(marsLatestPhoto)
-*/
-
 
             } catch (exc: IOException) {
                 _error.emit("Error from flow mars")

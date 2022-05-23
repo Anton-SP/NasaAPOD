@@ -5,15 +5,15 @@
     <item
         android:id="@+id/apod_menu"
         android:title="Apod"
-        android:icon="@drawable/ic_baseline_search_24"
+        android:icon="@drawable/ic_apod"
         />
     <item
         android:id="@+id/earth_menu"
-        android:icon="@drawable/ic_baseline_nightlight_24"
+        android:icon="@drawable/ic_epic"
         android:title="Earth"/>
     <item
         android:id="@+id/mars_menu"
-        android:icon="@drawable/ic_baseline_nightlight_24"
+        android:icon="@drawable/ic_mars"
         android:title="Mars"/>
 
 

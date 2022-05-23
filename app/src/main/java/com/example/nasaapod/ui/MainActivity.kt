@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setTheme(theme)
 
         super.onCreate(savedInstanceState)
-       /* binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root*/
-      //  setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

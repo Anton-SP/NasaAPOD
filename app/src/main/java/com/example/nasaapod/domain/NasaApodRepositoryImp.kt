@@ -1,7 +1,7 @@
 package com.example.nasaapod.domain
 
-import com.example.nasaapod.api.ApodResponse
-import com.example.nasaapod.api.NasaApi
+import com.example.nasaapod.api.apod.ApodResponse
+import com.example.nasaapod.api.apod.ApodApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,13 +18,13 @@ private val api = Retrofit.Builder()
         .build()
     )
     .build()
-    .create(NasaApi::class.java)
+    .create(ApodApi::class.java)
 
 /**
 ключ по хорошему не нужно передавать но для удобства учебных целей оставил так
  */
 
 class NasaApodRepositoryImp:NasaApodRepository {
-    override suspend fun Apod(): ApodResponse = api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB")
+    override suspend fun Apod(date:String): ApodResponse = api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB",date)
 
 }

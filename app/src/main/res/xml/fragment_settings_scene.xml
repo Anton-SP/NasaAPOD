@@ -24,7 +24,7 @@
             android:alpha="1"
             app:layout_constraintCircle="@id/settings_button"
             app:layout_constraintCircleAngle="270"
-            app:layout_constraintCircleRadius="120dp"
+            app:layout_constraintCircleRadius="@dimen/end_radius"
            />
 
         <Constraint
@@ -34,7 +34,18 @@
             android:alpha="1"
             app:layout_constraintCircle="@id/settings_button"
             app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="120dp" />
+            app:layout_constraintCircleRadius="@dimen/end_radius" />
+
+        <Constraint
+            android:id="@id/settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_theme_message"
+            android:alpha="1"
+            app:layout_constraintCircle="@id/settings_button"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="@dimen/end_radius"
+            />
     </ConstraintSet>
 
     <Transition

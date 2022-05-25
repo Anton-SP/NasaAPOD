@@ -12,4 +12,5 @@
     <string name="button_alt_theme_text">Alt</string>
     <string name="button_main_theme_text">Space</string>
     <string name="start_animation_button_text">START!</string>
+    <string name="choose_theme_message">Choose app theme</string>
 </resources>

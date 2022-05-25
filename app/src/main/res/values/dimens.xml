@@ -8,4 +8,6 @@
     <dimen name="explanation_size">20sp</dimen>
     <dimen name="coordinates_text_size">18sp</dimen>
     <dimen name="standart_edge_padding">5dp</dimen>
+    <dimen name="start_radius">0dp</dimen>
+    <dimen name="end_radius">120dp</dimen>
 </resources>

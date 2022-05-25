@@ -25,6 +25,7 @@ private val api = Retrofit.Builder()
  */
 
 class NasaApodRepositoryImp:NasaApodRepository {
-    override suspend fun Apod(date:String): ApodResponse = api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB",date)
+    override suspend fun Apod(date:String): ApodResponse =  api.getAPOD("GQr3kQbJTcVYc72YNrRg8GCNKbT6s618nfnS5COB",date)
+
 
 }

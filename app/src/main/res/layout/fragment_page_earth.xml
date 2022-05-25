@@ -10,21 +10,29 @@
         android:id="@+id/epic_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/coordinates_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/coordinates_title"/>
+
+ <!--   <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/image_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="epic_image"/>-->
 
     <com.google.android.material.textview.MaterialTextView
+        app:layout_constraintVertical_chainStyle="packed"
         android:id="@+id/coordinates_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/coordinates_title"
         android:textColor="@color/white"
         android:textSize="@dimen/coordinates_text_size"
-        app:layout_constraintBottom_toTopOf="@id/latitude"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/epic_image" />
+        app:layout_constraintBottom_toTopOf="@id/latitude"
+         />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/latitude"
@@ -34,7 +42,8 @@
         android:textSize="@dimen/coordinates_text_size"
         app:layout_constraintBottom_toTopOf="@id/longitude"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/coordinates_title" />
+        tool:text="test lat"
+        />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/longitude"
@@ -44,11 +53,10 @@
         android:textSize="@dimen/coordinates_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/latitude"
-        tool:text="test" />
+        tool:text="test long" />
 
     <com.google.android.material.textview.MaterialTextView
-        app:layout_constraintVertical_chainStyle="packed"
+
         android:id="@+id/date_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

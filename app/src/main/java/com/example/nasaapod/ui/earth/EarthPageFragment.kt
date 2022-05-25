@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.api.epic.EpicResponseDTO
@@ -32,7 +34,6 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
     val FIRST_PART_URL = "https://epic.gsfc.nasa.gov/archive/natural/"
     val THIRD_PART_URL = "/jpg/"
     val LAST_PART_URL = ".jpg"
-
 
 
     companion object {
@@ -68,13 +69,13 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.loading.collect(){
-                binding.progressBarEarth.visibility =  if (it) View.VISIBLE else View.GONE
+            epicViewModel.loading.collect() {
+                binding.progressBarEarth.visibility = if (it) View.VISIBLE else View.GONE
             }
         }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            epicViewModel.error.collect(){
+            epicViewModel.error.collect() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
@@ -83,10 +84,11 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
             val id: Int = it.getInt(ARG_NUMBER)
 
             Log.d("HAPPY", "id in create is= " + id.toString())
-            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted{
-                epicViewModel.epicList.collect(){ list ->
+            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+                epicViewModel.epicList.collect() { list ->
                     val secondPartUrl = list[id]?.date?.let { it1 -> convertDate(it1) }
-                    val url = FIRST_PART_URL+secondPartUrl+THIRD_PART_URL+list[id]?.image+LAST_PART_URL
+                    val url =
+                        FIRST_PART_URL + secondPartUrl + THIRD_PART_URL + list[id]?.image + LAST_PART_URL
                     binding.epicImage.load(url)
                     binding.latitude.text = list[id]?.centroidCoordinates?.lat.toString()
                     binding.longitude.text = list[id]?.centroidCoordinates?.lon.toString()
@@ -95,10 +97,20 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
                 }
             }
         }
+
+        binding.epicImage.setOnClickListener {  }
     }
 
-    fun convertDate (inputString : String) :String {
+    fun convertDate(inputString: String): String {
 
-       return inputString.replace("-","/").substring(0,10)
+        return inputString.replace("-", "/").substring(0, 10)
     }
+
+    private fun showEarth() {
+        TransitionManager.beginDelayedTransition(
+            binding.root,
+            Fade().setDuration(2000).addTarget(binding.epicImage)
+        )
+    }
+
 }

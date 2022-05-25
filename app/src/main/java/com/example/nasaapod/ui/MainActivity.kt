@@ -9,6 +9,7 @@ import com.example.nasaapod.databinding.ActivityMainBinding
 import com.example.nasaapod.ui.apod.NasaApodFragment
 import com.example.nasaapod.ui.earth.EarthFargment
 import com.example.nasaapod.ui.mars.MarsFragment
+import com.example.nasaapod.ui.settings.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setTheme(theme)
 
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 R.id.apod_menu -> NasaApodFragment()
                 R.id.earth_menu -> EarthFargment()
                 R.id.mars_menu -> MarsFragment()
+                R.id.settings_menu -> SettingsFragment()
                 else -> null
             }?.also { fragment ->
                 supportFragmentManager

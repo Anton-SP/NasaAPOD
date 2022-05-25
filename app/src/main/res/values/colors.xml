@@ -19,6 +19,5 @@
     <color name="space_chip_text_uncheck_alt">#000000</color>
     <color name="tool_bar_alt">#032552</color>
     <color name="space_alt">#470257</color>
-
-
+    <color name="space_secondary">#5592AE</color>
 </resources>

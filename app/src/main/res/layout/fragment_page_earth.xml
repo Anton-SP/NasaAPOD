@@ -48,6 +48,7 @@
         tool:text="test" />
 
     <com.google.android.material.textview.MaterialTextView
+        app:layout_constraintVertical_chainStyle="packed"
         android:id="@+id/date_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

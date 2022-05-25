@@ -51,6 +51,7 @@ class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragment = this
+
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
             viewModel.today.collect() { day ->
                 binding.apodViewPager.adapter = NasaApodPagerAdapter(fragment)

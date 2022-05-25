@@ -1,6 +1,7 @@
 package com.example.nasaapod.ui.apod
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -43,6 +44,7 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
         viewModelScope.launch {
             try {
+
                 val today = LocalDate.now().toString()
                 val oneDayAgo = LocalDate.now().minusDays(1).toString()
                 val twoDaysAgo = LocalDate.now().minusDays(2).toString()

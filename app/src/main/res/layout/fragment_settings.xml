@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_settings_scene"
+        app:showPaths="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/theme_space_button"
+            android:paddingHorizontal="@dimen/standart_edge_padding"
+            android:text="@string/button_main_theme_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            app:layout_constraintCircle="@id/settings_button"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/theme_alter_space_button"
+            android:paddingHorizontal="@dimen/standart_edge_padding"
+            android:text="@string/button_alt_theme_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            app:layout_constraintCircle="@id/settings_button"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="0dp"
+           />
+<!--
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width=""
+            android:layout_height=""-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settings_button"
+            android:src="@drawable/ic_baseline_power_settings_new_24"
+            android:text="@string/start_animation_button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="1"/>
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

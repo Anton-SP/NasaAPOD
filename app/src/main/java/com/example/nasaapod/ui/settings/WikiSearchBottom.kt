@@ -1,4 +1,4 @@
-package com.example.nasaapod.ui
+package com.example.nasaapod.ui.settings
 
 import android.os.Build
 import android.os.Bundle

@@ -4,17 +4,22 @@
 
     <item
         android:id="@+id/apod_menu"
-        android:title="Apod"
+        android:title="@string/apod_menu"
         android:icon="@drawable/ic_apod"
         />
     <item
         android:id="@+id/earth_menu"
         android:icon="@drawable/ic_epic"
-        android:title="Earth"/>
+        android:title="@string/earth_menu"/>
     <item
         android:id="@+id/mars_menu"
         android:icon="@drawable/ic_mars"
-        android:title="Mars"/>
+        android:title="@string/mars_menu"/>
+    <item
+        android:id="@+id/settings_menu"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/settings_menu"/>
+
 
 
    <!-- <group android:checkableBehavior="single">

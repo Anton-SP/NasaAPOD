@@ -8,10 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_settings_scene"
-        app:showPaths="true">
+        app:showPaths="false">
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/choose_theme_message"
+            android:alpha="0"
+            android:textSize="28sp"
+            app:layout_constraintCircle="@id/settings_button"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="@dimen/start_radius"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/theme_space_button"
+            android:backgroundTint="@color/space"
             android:paddingHorizontal="@dimen/standart_edge_padding"
             android:text="@string/button_main_theme_text"
             android:layout_width="wrap_content"
@@ -19,10 +31,12 @@
             android:alpha="0"
             app:layout_constraintCircle="@id/settings_button"
             app:layout_constraintCircleAngle="0"
-            app:layout_constraintCircleRadius="0dp" />
+            app:layout_constraintCircleRadius="@dimen/start_radius" />
 
-        <com.google.android.material.button.MaterialButton
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/theme_alter_space_button"
+            android:backgroundTint="@color/space_alt"
             android:paddingHorizontal="@dimen/standart_edge_padding"
             android:text="@string/button_alt_theme_text"
             android:layout_width="wrap_content"
@@ -30,12 +44,9 @@
             android:alpha="0"
             app:layout_constraintCircle="@id/settings_button"
             app:layout_constraintCircleAngle="0"
-            app:layout_constraintCircleRadius="0dp"
+            app:layout_constraintCircleRadius="@dimen/start_radius"
            />
-<!--
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width=""
-            android:layout_height=""-->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/settings_button"
             android:src="@drawable/ic_baseline_power_settings_new_24"
@@ -46,6 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:alpha="1"/>
+
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

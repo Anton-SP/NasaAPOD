@@ -50,6 +50,12 @@ class EarthFargment : Fragment(R.layout.earth_fragment) {
         val fragment = this
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
+            epicViewModel.loading.collect(){
+                binding.progressBarEarth.visibility =  if (it) View.VISIBLE else View.GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
             epicViewModel.epicList.collect() { response ->
                 response?.let {
                     size = it.size

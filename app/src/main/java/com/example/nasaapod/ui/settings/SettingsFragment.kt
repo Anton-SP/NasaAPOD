@@ -50,6 +50,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             binding.settingsButton.hide()
             moveSpaceThemeButtonUp()
             moveAlterThemeButtonUp()
+            moveTitleUp()
 
         }
 
@@ -146,6 +147,31 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         //     Toast.makeText(requireContext(),"HEHEH",Toast.LENGTH_SHORT).show()
                     }
                 })
+        }
+    }
+
+    private fun moveTitleUp(){
+        binding.settingsTitle.apply {
+            ChangeBounds()
+                .apply {
+                    setPathMotion(ArcMotion().apply {
+                        this.maximumAngle = 0.0f
+                    })
+                    duration = 3000
+
+                }
+                .also {
+                    TransitionManager.beginDelayedTransition(binding.root, it)
+                }
+            updateLayoutParams<ConstraintLayout.LayoutParams> {
+                startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            }
+            animate()
+                .alpha(1f)
+                .setDuration(3000)
         }
     }
 

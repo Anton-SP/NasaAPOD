@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/earth_page_root"
     android:background="@color/black">
 
     <ImageView
@@ -13,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@id/coordinates_title"/>
 
  <!--   <androidx.constraintlayout.widget.Barrier

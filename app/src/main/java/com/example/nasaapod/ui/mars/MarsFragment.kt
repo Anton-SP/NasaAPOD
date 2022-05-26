@@ -15,6 +15,9 @@ import com.example.nasaapod.databinding.MarsFragmentBinding
 import com.example.nasaapod.domain.MarsRepositoryImp
 import com.google.android.material.tabs.TabLayoutMediator
 
+/**
+ * try add zoom
+ */
 
 class MarsFragment : Fragment(R.layout.mars_fragment) {
 

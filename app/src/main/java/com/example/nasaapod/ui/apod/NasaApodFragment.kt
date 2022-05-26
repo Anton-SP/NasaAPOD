@@ -13,16 +13,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.NasaApodFragmentBinding
 import com.example.nasaapod.domain.NasaApodRepositoryImp
 import com.example.nasaapod.ui.mars.MarsFragment
 import com.example.nasaapod.ui.mars.MarsPageFragment
+import com.example.nasaapod.ui.transforms.ZoomOutPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
 
 class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
+
+
+
 
     private lateinit var binding: NasaApodFragmentBinding
 
@@ -52,6 +57,8 @@ class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
         super.onViewCreated(view, savedInstanceState)
         val fragment = this
 
+        binding.apodViewPager.setPageTransformer(ZoomOutPageTransformer())
+
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
             viewModel.today.collect() { day ->
                 binding.apodViewPager.adapter = NasaApodPagerAdapter(fragment)
@@ -77,8 +84,54 @@ class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
         override fun getItemCount(): Int = 3
         override fun createFragment(position: Int): Fragment =
             NasaApodPageFragment.instance(position)
-
     }
 
 
+
 }
+
+
+/*
+class ZoomOutPageTransformer : ViewPager2.PageTransformer {
+
+    override fun transformPage(view: View, position: Float) {
+        view.apply {
+            val pageWidth = width
+            val pageHeight = height
+            when {
+                position < -1 -> { // [-Infinity,-1)
+                    // This page is way off-screen to the left.
+                    alpha = 0f
+                }
+                position <= 1 -> { // [-1,1]
+                    // Modify the default slide transition to shrink the page as well
+                    val scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position))
+                    val vertMargin = pageHeight * (1 - scaleFactor) / 2
+                    val horzMargin = pageWidth * (1 - scaleFactor) / 2
+                    translationX = if (position < 0) {
+                        horzMargin - vertMargin / 2
+                    } else {
+                        horzMargin + vertMargin / 2
+                    }
+
+                    // Scale the page down (between MIN_SCALE and 1)
+                    scaleX = scaleFactor
+                    scaleY = scaleFactor
+
+                    // Fade the page relative to its size.
+                    alpha = (MIN_ALPHA +
+                            (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))
+                }
+                else -> { // (1,+Infinity]
+                    // This page is way off-screen to the right.
+                    alpha = 0f
+                }
+            }
+        }
+    }
+}
+
+
+
+
+*/

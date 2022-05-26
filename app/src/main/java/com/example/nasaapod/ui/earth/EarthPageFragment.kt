@@ -89,7 +89,10 @@ class EarthPageFragment : Fragment(R.layout.fragment_page_earth) {
                     val secondPartUrl = list[id]?.date?.let { it1 -> convertDate(it1) }
                     val url =
                         FIRST_PART_URL + secondPartUrl + THIRD_PART_URL + list[id]?.image + LAST_PART_URL
-                    binding.epicImage.load(url)
+                    binding.epicImage.load(url){
+                        crossfade(true)
+                        crossfade(3000)
+                    }
                     binding.latitude.text = list[id]?.centroidCoordinates?.lat.toString()
                     binding.longitude.text = list[id]?.centroidCoordinates?.lon.toString()
                     binding.dateImage.text = list[id]?.date

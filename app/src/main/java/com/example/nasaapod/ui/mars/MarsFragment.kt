@@ -13,6 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.MarsFragmentBinding
 import com.example.nasaapod.domain.MarsRepositoryImp
+import com.example.nasaapod.ui.transforms.DepthPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
@@ -47,6 +48,8 @@ class MarsFragment : Fragment(R.layout.mars_fragment) {
         super.onViewCreated(view, savedInstanceState)
         var size = 0
         val fragment = this
+
+        binding.marsViewPager.setPageTransformer(DepthPageTransformer())
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
             marsViewModel.photos.collect { response ->

@@ -13,4 +13,5 @@
     <string name="button_main_theme_text">Space</string>
     <string name="start_animation_button_text">START!</string>
     <string name="choose_theme_message">Choose app theme</string>
+    <string name="notepad_menu">Notepad</string>
 </resources>

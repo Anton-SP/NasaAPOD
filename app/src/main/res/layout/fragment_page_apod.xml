@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
+    android:layout_height="match_parent">
+    <!--android:fitsSystemWindows="true">-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,16 +12,15 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
-
-
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/main_collapse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="@dimen/coll_bar_margin_end"
             app:expandedTitleMarginStart="@dimen/coll_bar_margin_start"
-            app:layout_scrollFlags="scroll|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/apod_img"
@@ -49,39 +47,6 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/chip_padding"
-            app:layout_scrollFlags="enterAlways"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_today"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/today_chip" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_1_day_ago"
-
-                app:rippleColor="@color/teal_200"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/day1_chip" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_2_day_ago"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/day2_chip" />
-
-
-        </com.google.android.material.chip.ChipGroup>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -107,17 +72,5 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:fabAlignmentMode="center"
-        app:hideOnScroll="true"
-        app:menu="@menu/appbar_menu">
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

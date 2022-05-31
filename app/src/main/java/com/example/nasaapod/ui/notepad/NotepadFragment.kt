@@ -34,8 +34,10 @@ class NotepadFragment: Fragment (R.layout.notepad) {
         val data = mutableListOf(
             TextItem("id1", "One"),
             TextItem("id2", "two"),
-            TextItem("id3", "three"),
+            ImageItem("id3",R.drawable.test_image),
             TextItem("id4", "four"),
+            TextItem("id5", "five"),
+            ImageItem("id6",R.drawable.test_image),
         )
 
         adapter = NotebookAdapter({
@@ -43,7 +45,7 @@ class NotepadFragment: Fragment (R.layout.notepad) {
         },{
             Snackbar.make(list,it.toString(),Snackbar.LENGTH_SHORT).show()
         }).apply {
-            submitList(data as List<AdapterItem>?)
+            submitList(data)
         }
 
         list.adapter = adapter

@@ -35,12 +35,22 @@
 
         <ImageView
             android:padding="10dp"
-            android:id="@+id/add_item"
+            android:id="@+id/move_item_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            android:src="@drawable/ic_baseline_arrow_circle_down_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/delete_item"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:padding="10dp"
+            android:id="@+id/move_item_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_circle_up_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/move_item_down"
             app:layout_constraintTop_toTopOf="parent" />
 
 

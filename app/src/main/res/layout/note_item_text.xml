@@ -10,21 +10,21 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/note_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="test" />
 
         <ImageView
-            android:padding="10dp"
+            android:padding="5dp"
             android:id="@+id/delete_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:padding="10dp"
+            android:padding="5dp"
             android:id="@+id/move_item_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:padding="10dp"
+            android:padding="5dp"
             android:id="@+id/move_item_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.nasaapod.ui.notepad
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,46 +14,44 @@ import java.util.*
 
 
 class NotebookAdapter(
-    private val textItemClecked: ((item: String) -> Unit)? = null,
-    private val imageLongClicked: ((item: ImageItem) -> Unit)? = null,
-    private val itemRemoved: ((position: Int) -> Unit)? = null
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
-/* ListAdapter<AdapterItem, RecyclerView.ViewHolder>(
-     object :
-         DiffUtil.ItemCallback<AdapterItem>() {
-         override fun areItemsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
-             oldItem.key == newItem.key
+    private val textItemUp: ((position: Int) -> Unit)? = null,
+    private val textItemDown: ((position: Int) -> Unit)? = null,
+    private val textItemRemoved: ((position: Int) -> Unit)? = null
+) :ListAdapter<AdapterItem, RecyclerView.ViewHolder>(
+        object :
+            DiffUtil.ItemCallback<AdapterItem>() {
+            override fun areItemsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
+                oldItem.key == newItem.key
 
-         override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
+            override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
              oldItem == newItem
-     }
- ) */ {
 
 
+            /*   override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
+                   if (oldItem is TextItem && newItem is TextItem) {
+                       oldItem.update == newItem.update
+                   } return true
+
+                 if (oldItem is TextItem && newItem is TextItem) {
+                   if (oldItem.update == newItem.update)  return true
+                    else return false
+                }
+               if (oldItem == newItem) return true else  return false
+
+               e*/
+
+        }
+    )
+{
     companion object {
         private const val TYPE_TEXT = 1
         private const val TYPE_IMG = 2
-
     }
 
-    private val data = mutableListOf<AdapterItem>()
-
-    fun setData(list: Collection<AdapterItem>) {
-        data.apply {
-            clear()
-            addAll(list)
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int = when (data[position]) {
+    override fun getItemViewType(position: Int): Int = when (currentList[position]) {
         is TextItem -> TYPE_TEXT
         is ImageItem -> TYPE_IMG
     }
-
-    fun itemRemoved(position: Int) {
-        data.removeAt(position)
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
@@ -68,18 +67,20 @@ class NotebookAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TextViewHolder -> {
-                val item = data[position] as TextItem
+                val item = currentList[position] as TextItem
 
                 with(holder) {
+                    Log.d("HAPPY", "bind, position = " + position);
                     txt.text = item.text
+                    item.update = false
                     up.visibleIf { position != 0 }
-                    down.visibleIf { position != data.size - 1 }
+                    down.visibleIf { position != currentList.size - 1 }
 
                 }
             }
 
             is ImageViewHolder -> {
-                val item = data[position] as ImageItem
+                val item = currentList[position] as ImageItem
                 holder.img.setImageResource(item.img)
             }
         }
@@ -98,11 +99,10 @@ class NotebookAdapter(
 
         val up: ImageView = itemView.findViewById(R.id.move_item_up)
         val down: ImageView = itemView.findViewById(R.id.move_item_down)
-        val delete: ImageView = itemView.findViewById(R.id.delete_item)
 
         init {
             itemView.setOnClickListener {
-                (data[adapterPosition] as? TextItem)?.let {
+                (currentList[adapterPosition] as? TextItem)?.let {
                     // textItemClecked?.invoke(it.text)
                 }
             }
@@ -112,26 +112,43 @@ class NotebookAdapter(
              */
 
             itemView.findViewById<ImageView>(R.id.delete_item).setOnClickListener {
+                textItemRemoved?.invoke(adapterPosition)
+            /*
+                try  diff utils
                 data.removeAt(adapterPosition)
-
-                down.visibleIf { adapterPosition + 1 != data.size - 1 }
-                up.visibleIf { adapterPosition - 1 != 0 }
-                notifyItemRemoved(adapterPosition)
-                notifyItemChanged(adapterPosition)
+                 down.visibleIf { adapterPosition + 1 != data.size - 1 }
+                 up.visibleIf { adapterPosition - 1 != 0 }
+                 notifyItemRemoved(adapterPosition)
+                 notifyItemChanged(adapterPosition)*/
             }
 
             up.setOnClickListener {
-                Collections.swap(data, adapterPosition, adapterPosition - 1)
+              //  up.visibleIf { adapterPosition - 1 != 0 }
+                val from: TextItem = currentList[adapterPosition] as TextItem
+                val to: TextItem = currentList[adapterPosition-1] as TextItem
+                from.update = true
+                to.update = true
+
+                textItemUp?.invoke(adapterPosition)
+
+                /*Collections.swap(currentList, adapterPosition, adapterPosition - 1)
                 up.visibleIf { adapterPosition - 1 != 0 }
                 notifyItemMoved(adapterPosition, adapterPosition - 1)
-                notifyItemChanged(adapterPosition)
+                notifyItemChanged(adapterPosition)*/
             }
 
             down.setOnClickListener {
-                Collections.swap(data, adapterPosition, adapterPosition + 1)
-                down.visibleIf { adapterPosition + 1 != data.size - 1 }
+             //   down.visibleIf { adapterPosition + 1 != currentList.size - 1 }
+                val from: TextItem = currentList[adapterPosition] as TextItem
+                val to: TextItem = currentList[adapterPosition+1] as TextItem
+                from.update = true
+                to.update = true
+                textItemDown?.invoke(adapterPosition)
+
+               /* Collections.swap(currentList, adapterPosition, adapterPosition + 1)
+                down.visibleIf { adapterPosition + 1 != currentList.size - 1 }
                 notifyItemMoved(adapterPosition, adapterPosition + 1)
-                notifyItemChanged(adapterPosition)
+                notifyItemChanged(adapterPosition)*/
             }
         }
     }
@@ -142,7 +159,7 @@ class NotebookAdapter(
 
         init {
             img.setOnLongClickListener {
-                (data[adapterPosition] as? ImageItem)?.let {
+                (currentList[adapterPosition] as? ImageItem)?.let {
                     //imageLongClicked?.invoke(it)
                 }
                 true
@@ -151,11 +168,11 @@ class NotebookAdapter(
 
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = currentList.size
 
-    fun itemsMoved(from: Int, to: Int) {
-        Collections.swap(data,from,to)
-    }
+ /*   fun itemsMoved(from: Int, to: Int) {
+        Collections.swap(currentList, from, to)
+    }*/
 
 
 }

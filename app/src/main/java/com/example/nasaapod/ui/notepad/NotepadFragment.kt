@@ -11,6 +11,8 @@ import com.example.nasaapod.R
 import com.example.nasaapod.databinding.NotepadBinding
 import com.example.nasaapod.ui.notepad.TouchHelper.ItemTouchHelperCallBack
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NotepadFragment : Fragment(R.layout.notepad) {
 
@@ -34,43 +36,63 @@ class NotepadFragment : Fragment(R.layout.notepad) {
         val list: RecyclerView = binding.recycle
 
         var data: MutableList<AdapterItem> = mutableListOf(
-            TextItem("id1", "One"),
-            TextItem("id2", "two"),
-            ImageItem("id3", R.drawable.test_image),
-            TextItem("id4", "four"),
-            TextItem("id5", "five"),
-            ImageItem("id6", R.drawable.test_image),
+            TextItem("id1", "One",false),
+            TextItem("id2", "two",false),
+            TextItem("id3", "three",false),
+          //  ImageItem("id3", R.drawable.test_image),
+            TextItem("id4", "four",false),
+            TextItem("id5", "five",false),
+           // ImageItem("id6", R.drawable.test_image),
         )
 
 
 
-        adapter = NotebookAdapter({
-            Snackbar.make(list, it, Snackbar.LENGTH_SHORT).show()
-        }, {
-            Snackbar.make(list, it.toString(), Snackbar.LENGTH_SHORT).show()
-        }).apply {
-            setData(data)
-            notifyDataSetChanged()
-        }
+        adapter = NotebookAdapter(
+            { textItemUp ->
+                val copy = ArrayList(adapter.currentList)
+                Collections.swap(copy, textItemUp, textItemUp - 1)
+
+                adapter.submitList(copy)
+            },
+            { textItemDown ->
+                val copy = ArrayList(adapter.currentList)
+                Collections.swap(copy, textItemDown, textItemDown + 1)
+                adapter.submitList(copy)
+            },
+            { textItemRemove ->
+                val copy = ArrayList(adapter.currentList)
+                copy.removeAt(textItemRemove)
+                adapter.submitList(copy)
+            }
+        )
+
+        adapter.submitList(data)
+
 
 
         list.adapter = adapter
 
         ItemTouchHelper(ItemTouchHelperCallBack({ position ->
-            with (adapter) {
-                itemRemoved(position)
-                notifyItemRemoved(position)
-                Snackbar.make(list, position.toString(), Snackbar.LENGTH_SHORT).show()
+            with(adapter) {
+                val copy = ArrayList(adapter.currentList)
+                copy.removeAt(position)
+                submitList(copy)
+            //    itemRemoved(position)
+
+                //Snackbar.make(list, position.toString(), Snackbar.LENGTH_SHORT).show()
             }
 
 
-
         }, { from: Int, to: Int ->
-            with (adapter){
-                itemsMoved(from, to)
-                notifyItemMoved(from,to)
+            with(adapter) {
+                val copy = ArrayList(adapter.currentList)
+                Collections.swap(copy, from, to)
+                submitList(copy)
+
+             /*   itemsMoved(from, to)
+                notifyItemMoved(from, to)
                 notifyItemChanged(from)
-                notifyItemChanged(to)
+                notifyItemChanged(to)*/
             }
 
         })).attachToRecyclerView(list)

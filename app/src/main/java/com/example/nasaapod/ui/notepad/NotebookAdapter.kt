@@ -16,7 +16,8 @@ import java.util.*
 class NotebookAdapter(
     private val textItemUp: ((position: Int) -> Unit)? = null,
     private val textItemDown: ((position: Int) -> Unit)? = null,
-    private val textItemRemoved: ((position: Int) -> Unit)? = null
+    private val textItemRemoved: ((position: Int) -> Unit)? = null,
+    private val textItemEdit: ((position: Int) -> Unit)? = null
 ) :ListAdapter<AdapterItem, RecyclerView.ViewHolder>(
         object :
             DiffUtil.ItemCallback<AdapterItem>() {
@@ -24,7 +25,9 @@ class NotebookAdapter(
                 oldItem.key == newItem.key
 
             override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
-             oldItem == newItem
+            //    (oldItem as TextItem).update == (newItem as TextItem).update
+
+           oldItem == newItem
 
 
             /*   override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
@@ -72,9 +75,9 @@ class NotebookAdapter(
                 with(holder) {
                     Log.d("HAPPY", "bind, position = " + position);
                     txt.text = item.text
-                    item.update = false
-                    up.visibleIf { position != 0 }
-                    down.visibleIf { position != currentList.size - 1 }
+
+                  /*  up.visibleIf { position != 0 }
+                    down.visibleIf { position != currentList.size - 1 }*/
 
                 }
             }
@@ -97,13 +100,13 @@ class NotebookAdapter(
 
         val txt: TextView = itemView.findViewById(R.id.note_text)
 
-        val up: ImageView = itemView.findViewById(R.id.move_item_up)
-        val down: ImageView = itemView.findViewById(R.id.move_item_down)
+     /*   val up: ImageView = itemView.findViewById(R.id.move_item_up)
+        val down: ImageView = itemView.findViewById(R.id.move_item_down)*/
 
         init {
             itemView.setOnClickListener {
                 (currentList[adapterPosition] as? TextItem)?.let {
-                    // textItemClecked?.invoke(it.text)
+
                 }
             }
 
@@ -113,43 +116,23 @@ class NotebookAdapter(
 
             itemView.findViewById<ImageView>(R.id.delete_item).setOnClickListener {
                 textItemRemoved?.invoke(adapterPosition)
-            /*
-                try  diff utils
-                data.removeAt(adapterPosition)
-                 down.visibleIf { adapterPosition + 1 != data.size - 1 }
-                 up.visibleIf { adapterPosition - 1 != 0 }
-                 notifyItemRemoved(adapterPosition)
-                 notifyItemChanged(adapterPosition)*/
             }
 
-            up.setOnClickListener {
-              //  up.visibleIf { adapterPosition - 1 != 0 }
-                val from: TextItem = currentList[adapterPosition] as TextItem
-                val to: TextItem = currentList[adapterPosition-1] as TextItem
-                from.update = true
-                to.update = true
+            itemView.findViewById<ImageView>(R.id.edit_text_item).setOnClickListener{
+                textItemEdit?.invoke(adapterPosition)
+            }
 
+           /* up.setOnClickListener {
                 textItemUp?.invoke(adapterPosition)
-
-                /*Collections.swap(currentList, adapterPosition, adapterPosition - 1)
-                up.visibleIf { adapterPosition - 1 != 0 }
-                notifyItemMoved(adapterPosition, adapterPosition - 1)
-                notifyItemChanged(adapterPosition)*/
             }
 
             down.setOnClickListener {
-             //   down.visibleIf { adapterPosition + 1 != currentList.size - 1 }
                 val from: TextItem = currentList[adapterPosition] as TextItem
                 val to: TextItem = currentList[adapterPosition+1] as TextItem
                 from.update = true
                 to.update = true
                 textItemDown?.invoke(adapterPosition)
-
-               /* Collections.swap(currentList, adapterPosition, adapterPosition + 1)
-                down.visibleIf { adapterPosition + 1 != currentList.size - 1 }
-                notifyItemMoved(adapterPosition, adapterPosition + 1)
-                notifyItemChanged(adapterPosition)*/
-            }
+            }*/
         }
     }
 

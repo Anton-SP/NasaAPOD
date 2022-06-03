@@ -36,9 +36,11 @@ class NotebookAdapter(
 
 
         override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
+
+
             when {
                 oldItem is TextItem && newItem is TextItem && oldItem.text == newItem.text -> {
-                    Log.d("####", "old item =" + oldItem.text + "new item = " + newItem.text)
+                    Log.d("####", "old item = " + oldItem.text + "new item = " + newItem.text)
                     true
                 }
                 else -> {

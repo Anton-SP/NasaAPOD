@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.NotepadBinding
 import com.example.nasaapod.ui.notepad.TouchHelper.ItemTouchHelperCallBack
+import com.example.nasaapod.ui.notepad.dalagates.AdapterDelegates
+import com.example.nasaapod.ui.notepad.dalagates.ImageAdapterDelegate
+import com.example.nasaapod.ui.notepad.dalagates.NotebookAdapterDelegates
+import com.example.nasaapod.ui.notepad.dalagates.TextAdapterDelegate
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.cancellable
@@ -25,10 +29,10 @@ class NotepadFragment : Fragment(R.layout.notepad) {
 
     private lateinit var binding: NotepadBinding
 
-    private lateinit var adapter: NotebookAdapter
+    private lateinit var adapter: NotebookAdapterDelegates
 
 
-    private val notebookViewModel:NotebookViewModel by activityViewModels {
+    private val notebookViewModel: NotebookViewModel by activityViewModels {
         NotebookViewModel.NotebookViewModelFactory()
     }
 
@@ -47,14 +51,17 @@ class NotepadFragment : Fragment(R.layout.notepad) {
 
         if (savedInstanceState == null) {
             notebookViewModel.setData()
-            Log.d("HAPPY","new list")
+            Log.d("HAPPY", "new list")
         }
 
         val list: RecyclerView = binding.recycle
 
 
-
-        adapter = NotebookAdapter(
+        adapter = NotebookAdapterDelegates(listOf(
+            TextAdapterDelegate(),
+            ImageAdapterDelegate()
+        ) as List<AdapterDelegates<AdapterItem>>)
+        /*adapter = NotebookAdapter(
             { textItemUp ->
                 val copy = ArrayList(adapter.currentList)
                 Collections.swap(copy, textItemUp, textItemUp - 1)
@@ -71,25 +78,25 @@ class NotepadFragment : Fragment(R.layout.notepad) {
                 copy.removeAt(textItemRemove)
                 adapter.submitList(copy)
             },
-            {
-            textItemEdit ->
+            { textItemEdit ->
 
-                notebookViewModel.setId(textItemEdit)
+              //  notebookViewModel.setId(textItemEdit)
                 requireActivity().supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.main_container,EditTextFragment(),"EDIT")
+                    .add(R.id.main_container, EditTextFragment(textItemEdit), "EDIT")
                     .addToBackStack(null)
                     .commit()
 
 
             }
-        )
+        )*/
 
-        notebookViewModel.currentdData.observe(viewLifecycleOwner) { list->
-            if (adapter.currentList != list) {
-                adapter.submitList(list)
-                Log.d("HAPPY","update list")
-            }
+        notebookViewModel.currentdData.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
+        /*if (adapter.currentList != list) {
+
+                Log.d("HAPPY", "update list")
+            }*/
 
         }
 
@@ -99,21 +106,23 @@ class NotepadFragment : Fragment(R.layout.notepad) {
             with(adapter) {
                 val copy = ArrayList(adapter.currentList)
                 copy.removeAt(position)
-               // submitList(copy)
+            //    adapter.submitList(copy)
                 notebookViewModel.setData(copy)
             }
 
 
         }, { from: Int, to: Int ->
-            with(adapter) {
+
                 val copy = ArrayList(adapter.currentList)
                 Collections.swap(copy, from, to)
-                //submitList(copy)
-                notebookViewModel.setData(copy)
-            }
+             //   adapter.submitList(copy)
+               notebookViewModel.setData(copy)
+
 
         })).attachToRecyclerView(list)
     }
+
+
 
 
 

@@ -23,13 +23,20 @@ class NotebookViewModel : ViewModel() {
     private val _currentData = MutableLiveData(mutableListOf<AdapterItem>())
     val currentdData: LiveData<MutableList<AdapterItem>> = _currentData
 
+    private val _editedList = MutableLiveData(mutableListOf<AdapterItem>())
+    val editedList: LiveData<MutableList<AdapterItem>> = _editedList
+
     private val _id = MutableLiveData(-1)
     val id: LiveData<Int> = _id
 
 
-    fun setData(list:MutableList<AdapterItem>){
-       _currentData.value = list
+    fun setEdited(list:MutableList<AdapterItem>){
+        _editedList.value = list
 
+    }
+
+    fun setData(list:MutableList<AdapterItem>){
+        _currentData.value = list
     }
 
     fun setData(){

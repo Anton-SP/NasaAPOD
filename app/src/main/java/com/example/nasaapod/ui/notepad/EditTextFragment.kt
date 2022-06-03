@@ -16,9 +16,11 @@ import com.example.nasaapod.databinding.FragmentEditTextBinding
 import com.example.nasaapod.databinding.MarsFragmentBinding
 import java.util.*
 
-class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
+class EditTextFragment (position:Int) : Fragment(R.layout.fragment_edit_text) {
 
     private lateinit var binding: FragmentEditTextBinding
+
+    val curId = position
 
     private val notebookViewModel: NotebookViewModel by activityViewModels {
         NotebookViewModel.NotebookViewModelFactory()
@@ -36,18 +38,15 @@ class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var id = -1
+
         var newList = mutableListOf<AdapterItem>()
 
-        notebookViewModel.id.observe(viewLifecycleOwner) { idposition ->
-            if (idposition>-1) id = idposition
-        }
 
         notebookViewModel.currentdData.observe(viewLifecycleOwner) { curList ->
-            if (id>-1) {
+
                 newList = curList
-                binding.inputLayout.editText?.setText((newList[id] as TextItem).text)
-            }
+                binding.inputLayout.editText?.setText((newList[curId] as TextItem).text)
+
         }
 
 
@@ -56,8 +55,8 @@ class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
         binding.editToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit_menu_save -> {
-                    if ((id>-1) and (newList.isNotEmpty())) {
-                        (newList[id] as TextItem).text = binding.inputLayout.editText?.text.toString()
+                    if (newList.isNotEmpty()){
+                        (newList[curId] as TextItem).text = binding.inputLayout.editText?.text.toString()
                         notebookViewModel.setData(newList)
                         notebookViewModel.clearId()
 
@@ -67,7 +66,7 @@ class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
                     true
                 }
                 R.id.edit_menu_cancel -> {
-                  //  notebookViewModel.clearBuffer()
+                    notebookViewModel.clearId()
                     requireActivity().onBackPressed()
                     true
                 }

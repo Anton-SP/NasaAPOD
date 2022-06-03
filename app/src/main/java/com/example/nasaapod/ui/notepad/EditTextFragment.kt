@@ -1,6 +1,8 @@
 package com.example.nasaapod.ui.notepad
 
 import android.os.Bundle
+import android.service.autofill.Validators.and
+import android.service.autofill.Validators.or
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.lifecycle.coroutineScope
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.FragmentEditTextBinding
 import com.example.nasaapod.databinding.MarsFragmentBinding
+import java.util.*
 
 class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
 
@@ -33,49 +36,38 @@ class EditTextFragment : Fragment(R.layout.fragment_edit_text) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var id = -1
+        var newList = mutableListOf<AdapterItem>()
 
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            notebookViewModel.currentTextBuffer.collect { buffer ->
-                if (buffer != -1) {
-                    notebookViewModel.currentData.collect() { list ->
-                        binding.inputLayout.editText?.setText((list[buffer] as TextItem).text)
-                    }
-                }
-                Log.d("HAPPY", "in edit scope = " + buffer)
+        notebookViewModel.id.observe(viewLifecycleOwner) { idposition ->
+            if (idposition>-1) id = idposition
+        }
 
+        notebookViewModel.currentdData.observe(viewLifecycleOwner) { curList ->
+            if (id>-1) {
+                newList = curList
+                binding.inputLayout.editText?.setText((newList[id] as TextItem).text)
             }
         }
+
+
 
 
         binding.editToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit_menu_save -> {
-                    var newText = binding.inputLayout.editText?.text.toString()
-                    var id = -1
-                    var copy :MutableList<AdapterItem> = mutableListOf()
-                    viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted{
-                        notebookViewModel.currentData.collect(){ curList ->
-                           copy = curList
-                        }
-                    }
+                    if ((id>-1) and (newList.isNotEmpty())) {
+                        (newList[id] as TextItem).text = binding.inputLayout.editText?.text.toString()
+                        notebookViewModel.setData(newList)
+                        notebookViewModel.clearId()
 
-                    viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-                        notebookViewModel.currentTextBuffer.collect(){ buffer->
-                            if (buffer !=-1) {
-                                if (copy.count()>0) {
-                                    (copy[buffer] as TextItem).text = newText
-                                    notebookViewModel.serData(copy)
-                                }
-                            }
-                        }
-                    }
 
-                    //  notebookViewModel.setBuffer(binding.editedText.text.toString())
+                    }
                     requireActivity().supportFragmentManager.popBackStack()
                     true
                 }
                 R.id.edit_menu_cancel -> {
-                    notebookViewModel.clearBuffer()
+                  //  notebookViewModel.clearBuffer()
                     requireActivity().onBackPressed()
                     true
                 }

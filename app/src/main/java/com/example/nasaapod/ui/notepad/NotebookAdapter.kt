@@ -18,34 +18,38 @@ class NotebookAdapter(
     private val textItemDown: ((position: Int) -> Unit)? = null,
     private val textItemRemoved: ((position: Int) -> Unit)? = null,
     private val textItemEdit: ((position: Int) -> Unit)? = null
-) :ListAdapter<AdapterItem, RecyclerView.ViewHolder>(
-        object :
-            DiffUtil.ItemCallback<AdapterItem>() {
-            override fun areItemsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
-                oldItem.key == newItem.key
+) : ListAdapter<AdapterItem, RecyclerView.ViewHolder>(
+    object :
+        DiffUtil.ItemCallback<AdapterItem>() {
+        override fun areItemsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
 
-            override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
-            //    (oldItem as TextItem).update == (newItem as TextItem).update
-
-           oldItem == newItem
-
-
-            /*   override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
-                   if (oldItem is TextItem && newItem is TextItem) {
-                       oldItem.update == newItem.update
-                   } return true
-
-                 if (oldItem is TextItem && newItem is TextItem) {
-                   if (oldItem.update == newItem.update)  return true
-                    else return false
-                }
-               if (oldItem == newItem) return true else  return false
-
-               e*/
-
+        when
+        {
+            oldItem.key == newItem.key ->{
+            Log.d("####", "same item true")
+            true
+        } else -> {
+            Log.d("####", "same item false")
+            false
         }
-    )
-{
+        }
+
+
+        override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
+            when {
+                oldItem is TextItem && newItem is TextItem && oldItem.text == newItem.text -> {
+                    Log.d("####", "old item =" + oldItem.text + "new item = " + newItem.text)
+                    true
+                }
+                else -> {
+                    Log.d("####", "False")
+                    false
+                }
+            }
+
+
+    }
+) {
     companion object {
         private const val TYPE_TEXT = 1
         private const val TYPE_IMG = 2
@@ -76,8 +80,8 @@ class NotebookAdapter(
                     Log.d("HAPPY", "bind, position = " + position);
                     txt.text = item.text
 
-                  /*  up.visibleIf { position != 0 }
-                    down.visibleIf { position != currentList.size - 1 }*/
+                    /*  up.visibleIf { position != 0 }
+                      down.visibleIf { position != currentList.size - 1 }*/
 
                 }
             }
@@ -100,8 +104,8 @@ class NotebookAdapter(
 
         val txt: TextView = itemView.findViewById(R.id.note_text)
 
-     /*   val up: ImageView = itemView.findViewById(R.id.move_item_up)
-        val down: ImageView = itemView.findViewById(R.id.move_item_down)*/
+        /*   val up: ImageView = itemView.findViewById(R.id.move_item_up)
+           val down: ImageView = itemView.findViewById(R.id.move_item_down)*/
 
         init {
             itemView.setOnClickListener {
@@ -118,21 +122,21 @@ class NotebookAdapter(
                 textItemRemoved?.invoke(adapterPosition)
             }
 
-            itemView.findViewById<ImageView>(R.id.edit_text_item).setOnClickListener{
+            itemView.findViewById<ImageView>(R.id.edit_text_item).setOnClickListener {
                 textItemEdit?.invoke(adapterPosition)
             }
 
-           /* up.setOnClickListener {
-                textItemUp?.invoke(adapterPosition)
-            }
+            /* up.setOnClickListener {
+                 textItemUp?.invoke(adapterPosition)
+             }
 
-            down.setOnClickListener {
-                val from: TextItem = currentList[adapterPosition] as TextItem
-                val to: TextItem = currentList[adapterPosition+1] as TextItem
-                from.update = true
-                to.update = true
-                textItemDown?.invoke(adapterPosition)
-            }*/
+             down.setOnClickListener {
+                 val from: TextItem = currentList[adapterPosition] as TextItem
+                 val to: TextItem = currentList[adapterPosition+1] as TextItem
+                 from.update = true
+                 to.update = true
+                 textItemDown?.invoke(adapterPosition)
+             }*/
         }
     }
 
@@ -153,9 +157,9 @@ class NotebookAdapter(
 
     override fun getItemCount(): Int = currentList.size
 
- /*   fun itemsMoved(from: Int, to: Int) {
-        Collections.swap(currentList, from, to)
-    }*/
+    /*   fun itemsMoved(from: Int, to: Int) {
+           Collections.swap(currentList, from, to)
+       }*/
 
 
 }

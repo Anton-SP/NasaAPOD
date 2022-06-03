@@ -46,7 +46,7 @@ class NotepadFragment : Fragment(R.layout.notepad) {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
-            notebookViewModel.setBeginData()
+            notebookViewModel.setData()
             Log.d("HAPPY","new list")
         }
 
@@ -73,10 +73,8 @@ class NotepadFragment : Fragment(R.layout.notepad) {
             },
             {
             textItemEdit ->
-                val copy = ArrayList(adapter.currentList)
-                Log.d("HAPPY","in fragment = "+(copy[textItemEdit] as TextItem).text)
-                notebookViewModel.setBuffer(textItemEdit)
-               // notebookViewModel.setBuffer((copy[textItemEdit] as TextItem).text)
+
+                notebookViewModel.setId(textItemEdit)
                 requireActivity().supportFragmentManager
                     .beginTransaction()
                     .add(R.id.main_container,EditTextFragment(),"EDIT")
@@ -87,10 +85,12 @@ class NotepadFragment : Fragment(R.layout.notepad) {
             }
         )
 
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
-            notebookViewModel.currentData.collect(){newList->
-                adapter.submitList(newList)
+        notebookViewModel.currentdData.observe(viewLifecycleOwner) { list->
+            if (adapter.currentList != list) {
+                adapter.submitList(list)
+                Log.d("HAPPY","update list")
             }
+
         }
 
         list.adapter = adapter
@@ -99,7 +99,8 @@ class NotepadFragment : Fragment(R.layout.notepad) {
             with(adapter) {
                 val copy = ArrayList(adapter.currentList)
                 copy.removeAt(position)
-                submitList(copy)
+               // submitList(copy)
+                notebookViewModel.setData(copy)
             }
 
 
@@ -107,11 +108,13 @@ class NotepadFragment : Fragment(R.layout.notepad) {
             with(adapter) {
                 val copy = ArrayList(adapter.currentList)
                 Collections.swap(copy, from, to)
-                submitList(copy)
+                //submitList(copy)
+                notebookViewModel.setData(copy)
             }
 
         })).attachToRecyclerView(list)
     }
+
 
 
 }

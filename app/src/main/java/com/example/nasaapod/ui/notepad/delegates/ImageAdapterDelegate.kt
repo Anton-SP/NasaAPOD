@@ -1,4 +1,4 @@
-package com.example.nasaapod.ui.notepad.dalagates
+package com.example.nasaapod.ui.notepad.delegates
 
 import android.widget.ImageView
 import com.example.nasaapod.R

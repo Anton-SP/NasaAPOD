@@ -23,23 +23,15 @@ class NotebookViewModel : ViewModel() {
     private val _currentData = MutableLiveData(mutableListOf<AdapterItem>())
     val currentdData: LiveData<MutableList<AdapterItem>> = _currentData
 
-    private val _editedList = MutableLiveData(mutableListOf<AdapterItem>())
-    val editedList: LiveData<MutableList<AdapterItem>> = _editedList
-
     private val _id = MutableLiveData(-1)
     val id: LiveData<Int> = _id
 
 
-    fun setEdited(list:MutableList<AdapterItem>){
-        _editedList.value = list
-
-    }
-
-    fun setData(list:MutableList<AdapterItem>){
+    fun setData(list: MutableList<AdapterItem>) {
         _currentData.value = list
     }
 
-    fun setData(){
+    fun setData() {
         _currentData.value = mutableListOf(
             TextItem("id1", "One"),
             TextItem("id2", "two"),
@@ -51,19 +43,18 @@ class NotebookViewModel : ViewModel() {
         )
     }
 
-    fun setId(id:Int){
-        _id.value=id
+    fun setId(id: Int) {
+        _id.value = id
     }
 
-    fun clearId(){
-        _id.value=-1
+    fun clearId() {
+        _id.value = -1
     }
 
 
-        class NotebookViewModelFactory() : ViewModelProvider.Factory{
-            override fun <T : ViewModel> create(modelClass: Class<T>): T =
-                NotebookViewModel() as T
-
-        }
+    class NotebookViewModelFactory() : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
+            NotebookViewModel() as T
+    }
 
 }

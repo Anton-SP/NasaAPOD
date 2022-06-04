@@ -16,7 +16,7 @@ import com.example.nasaapod.databinding.FragmentEditTextBinding
 import com.example.nasaapod.databinding.MarsFragmentBinding
 import java.util.*
 
-class EditTextFragment (position:Int) : Fragment(R.layout.fragment_edit_text) {
+class EditTextFragment(position: Int) : Fragment(R.layout.fragment_edit_text) {
 
     private lateinit var binding: FragmentEditTextBinding
 
@@ -44,29 +44,26 @@ class EditTextFragment (position:Int) : Fragment(R.layout.fragment_edit_text) {
 
         notebookViewModel.currentdData.observe(viewLifecycleOwner) { curList ->
 
-                newList = curList
-                binding.inputLayout.editText?.setText((newList[curId] as TextItem).text)
-
+            newList = curList
+            binding.inputLayout.editText?.setText((newList[curId] as TextItem).text)
         }
-
-
 
 
         binding.editToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit_menu_save -> {
-                    if (newList.isNotEmpty()){
-                        (newList[curId] as TextItem).text = binding.inputLayout.editText?.text.toString()
+
+                    if (newList.isNotEmpty()) {
+                        (newList[curId] as TextItem).text =
+                            binding.inputLayout.editText?.text.toString()
                         notebookViewModel.setData(newList)
-                        notebookViewModel.clearId()
-
-
+                        notebookViewModel.setId(curId)
                     }
                     requireActivity().supportFragmentManager.popBackStack()
                     true
                 }
                 R.id.edit_menu_cancel -> {
-                    notebookViewModel.clearId()
+
                     requireActivity().onBackPressed()
                     true
                 }

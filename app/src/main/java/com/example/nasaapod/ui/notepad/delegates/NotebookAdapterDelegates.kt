@@ -1,4 +1,4 @@
-package com.example.nasaapod.ui.notepad.dalagates
+package com.example.nasaapod.ui.notepad.delegates
 
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +19,9 @@ class NotebookAdapterDelegates(private val delegates: List<AdapterDelegates<Adap
         override fun areContentsTheSame(oldItem: AdapterItem, newItem: AdapterItem): Boolean =
             oldItem == newItem
 
+        override fun getChangePayload(oldItem: AdapterItem, newItem: AdapterItem): Any? {
+            return super.getChangePayload(oldItem, newItem)
+        }
 
     }) {
     override fun getItemViewType(position: Int): Int {
@@ -39,9 +42,10 @@ class NotebookAdapterDelegates(private val delegates: List<AdapterDelegates<Adap
 
         val holder = DelegatesViewHolder(itemView)
 
+
         delegates.find {
             it.layoutId == viewType
-        }?.created(holder)
+        }?.created(holder,)
 
         return holder
     }

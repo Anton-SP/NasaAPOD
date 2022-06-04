@@ -1,4 +1,4 @@
-package com.example.nasaapod.ui.notepad.dalagates
+package com.example.nasaapod.ui.notepad.delegates
 
 import com.example.nasaapod.ui.notepad.AdapterItem
 

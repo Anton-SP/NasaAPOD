@@ -18,6 +18,7 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.NasaApodFragmentBinding
 import com.example.nasaapod.domain.NasaApodRepositoryImp
+import com.example.nasaapod.ui.MainActivity
 import com.example.nasaapod.ui.mars.MarsFragment
 import com.example.nasaapod.ui.mars.MarsPageFragment
 import com.example.nasaapod.ui.transforms.ZoomOutPageTransformer
@@ -25,9 +26,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
 
 class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
-
-
-
 
     private lateinit var binding: NasaApodFragmentBinding
 
@@ -57,6 +55,7 @@ class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
         super.onViewCreated(view, savedInstanceState)
         val fragment = this
 
+
         binding.apodViewPager.setPageTransformer(ZoomOutPageTransformer())
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
@@ -69,7 +68,7 @@ class NasaApodFragment : Fragment(R.layout.nasa_apod_fragment) {
                         1 -> tab.text = LocalDate.now().minusDays(1).toString()
                         2 -> tab.text = LocalDate.now().minusDays(2).toString()
                     }
-
+                    (requireActivity() as MainActivity).setSplashScreen()
                     tab.icon = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.ic_apod

@@ -2,8 +2,11 @@ package com.example.nasaapod.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.ActivityMainBinding
 import com.example.nasaapod.ui.apod.NasaApodFragment
@@ -17,10 +20,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     companion object {
         const val KEY_THEME = "KEY_THEME"
     }
+    var showSplash = true
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val splashScreen = installSplashScreen()
+
+        splashScreen.setKeepOnScreenCondition {
+            showSplash
+        }
+
 
         val theme = getPreferences(Context.MODE_PRIVATE).getInt(KEY_THEME, -1)
         setTheme(theme)
@@ -28,10 +39,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            showSplash = false
+        }, 2000)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, NasaApodFragment())
                 .commit()
+
         }
 
        val bottomNavigation : BottomNavigationView = findViewById(R.id.bottom_nav_bar)
@@ -54,6 +70,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     }
 
+    fun setSplashScreen () {
+        showSplash = false
+    }
 
 }
 

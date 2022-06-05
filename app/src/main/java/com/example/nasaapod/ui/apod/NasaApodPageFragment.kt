@@ -175,6 +175,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         return  span
     }
 
+
     fun convertDpToPixel(dp: Int): Int {
         return (dp / Resources.getSystem().displayMetrics.density).toInt()
     }

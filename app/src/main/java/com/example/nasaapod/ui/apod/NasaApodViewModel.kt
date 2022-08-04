@@ -1,7 +1,6 @@
 package com.example.nasaapod.ui.apod
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.time.LocalDate
-import java.util.*
 
 class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
@@ -50,6 +48,7 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
                 val twoDaysAgo = LocalDate.now().minusDays(2).toString()
 
                 val todayResponse = repository.Apod(today)
+
                 _today.emit(todayResponse)
 
                 val oneDayAgoResponse = repository.Apod(oneDayAgo)

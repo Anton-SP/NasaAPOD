@@ -17,6 +17,8 @@ import java.time.LocalDate
 
 class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
+    val validator = ApodResponseValidator
+
     val _loading = MutableStateFlow(false)
     val loading: Flow<Boolean> = _loading
 
@@ -49,13 +51,29 @@ class NasaApodViewModel(val repository: NasaApodRepository) : ViewModel() {
 
                 val todayResponse = repository.Apod(today)
 
-                _today.emit(todayResponse)
+                if (validator.isValidResponse(todayResponse)) {
+                    _today.emit(todayResponse)
+                }
+
+                /*
+                логика такая, проверям что ответ на запрос ща сегодняшнюю дату
+                отличается от ответа за вчерашнюю дату, ничего лучшене придумал
+                и да оч не красивый if if if
+                */
 
                 val oneDayAgoResponse = repository.Apod(oneDayAgo)
-                _oneDayAgo.emit(oneDayAgoResponse)
+                if (validator.isValidResponse(oneDayAgoResponse) && validator.isResponseAreNotEquals(
+                        todayResponse,
+                        oneDayAgoResponse
+                    )
+                )  {
+                    _oneDayAgo.emit(oneDayAgoResponse)
+                }
 
                 val twoDaysAgoyResponse = repository.Apod(twoDaysAgo)
-                _twoDaysAgo.emit(twoDaysAgoyResponse)
+                if (validator.isValidResponse(twoDaysAgoyResponse)) {
+                    _twoDaysAgo.emit(twoDaysAgoyResponse)
+                }
 
 
             } catch (exc: IOException) {

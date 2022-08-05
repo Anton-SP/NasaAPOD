@@ -34,6 +34,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         }
 
     }
+    val validator = ApodResponseValidator
 
     private lateinit var binding: FragmentPageApodBinding
 
@@ -95,7 +96,10 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
                     viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
                         apodViewModel.today.collect() { day ->
                             day.let {
-                                binding.apodImg.load(day.url)
+                                if (validator.isValidApodUrl(day.url)) {
+                                    binding.apodImg.load(day.url)
+                                } else binding.apodImg.setImageResource(R.drawable.test_image)
+
                                 binding.textViewTitle.text = highlightFirstLetter(day.title)
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                     binding.textViewExplanation.text = addMarker(day.explanation)

@@ -1,6 +1,5 @@
 package com.example.nasaapod.ui.apod
 
-import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
@@ -9,7 +8,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.BulletSpan
 import android.text.style.ForegroundColorSpan
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,10 +22,6 @@ import coil.load
 import com.example.nasaapod.R
 import com.example.nasaapod.databinding.FragmentPageApodBinding
 import com.example.nasaapod.domain.NasaApodRepositoryImp
-import com.example.nasaapod.ui.mars.MarsPageFragment
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
@@ -40,6 +34,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         }
 
     }
+    val validator = ApodResponseValidator
 
     private lateinit var binding: FragmentPageApodBinding
 
@@ -47,7 +42,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         NasaApodViewModel.NasaApodViewModelFactory(NasaApodRepositoryImp())
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -100,10 +95,15 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
                 0 -> {
                     viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
                         apodViewModel.today.collect() { day ->
-                            day?.let {
-                                binding.apodImg.load(day.url)
+                            day.let {
+                                if (validator.isValidApodUrl(day.url)) {
+                                    binding.apodImg.load(day.url)
+                                } else binding.apodImg.setImageResource(R.drawable.test_image)
+
                                 binding.textViewTitle.text = highlightFirstLetter(day.title)
-                                binding.textViewExplanation.text = addMarker(day.explanation)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    binding.textViewExplanation.text = addMarker(day.explanation)
+                                }
                             }
                         }
                     }
@@ -111,10 +111,12 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
                 1 -> {
                     viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
                         apodViewModel.oneDayAgo.collect() { day ->
-                            day?.let {
+                            day.let {
                                 binding.apodImg.load(day.url)
                                 binding.textViewTitle.text = highlightFirstLetter(day.title)
-                                binding.textViewExplanation.text = addMarker(day.explanation)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    binding.textViewExplanation.text = addMarker(day.explanation)
+                                }
                             }
                         }
                     }
@@ -122,10 +124,12 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
                 2 -> {
                     viewLifecycleOwner.lifecycle.coroutineScope.launchWhenStarted {
                         apodViewModel.twoDaysAgo.collect() { day ->
-                            day?.let {
+                            day.let {
                                 binding.apodImg.load(day.url)
                                 binding.textViewTitle.text = highlightFirstLetter(day.title)
-                                binding.textViewExplanation.text = addMarker(day.explanation)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    binding.textViewExplanation.text = addMarker(day.explanation)
+                                }
                             }
                         }
                     }
@@ -138,6 +142,7 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
         }
 
     }
+
 
     fun highlightFirstLetter(txt: String): SpannableString {
         val span = SpannableString(txt)
@@ -155,14 +160,14 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.P)
     fun addMarker(txt: String): SpannableString {
         val span = SpannableString(txt)
         span.setSpan(
             BulletSpan(
                 convertDpToPixel(5),
-                Color.BLUE,10),
+                Color.BLUE, 10
+            ),
             0,
             span.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -172,13 +177,17 @@ class NasaApodPageFragment : Fragment(R.layout.fragment_page_apod) {
             0, 1,
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE
         )
-        return  span
+        return span
     }
 
     fun convertDpToPixel(dp: Int): Int {
         return (dp / Resources.getSystem().displayMetrics.density).toInt()
     }
 
+    fun validateUrl(url: String): Boolean {
+        return url.contains(".jpg")
+
+    }
 }
 
 
